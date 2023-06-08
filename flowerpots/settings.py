@@ -30,8 +30,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+#'admin_interface',
+
 INSTALLED_APPS = [
-    'admin_interface',
+    'jazzmin',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +43,9 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'colorfield',
     'django.contrib.humanize',
-    'crispy_forms'
+    'crispy_forms',
+    'rest_framework',
+    'paypalcheckoutsdk',
 ]
 
 
@@ -80,12 +84,26 @@ WSGI_APPLICATION = 'flowerpots.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
+
+DATABASES ={
+    'default': {
+        'ENGINE' : 'django.db.backends.mysql',
+        'NAME' : 'flowerpotsv2',
+        'HOST' : 'localhost',
+        'PORT' : '3306',
+        'USER' : 'root',
+        'PASSWORD' : '',
+    }
+}
+
 
 
 # Password validation

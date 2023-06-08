@@ -1,8 +1,17 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
+from rest_framework import routers
 
+# creamos las rutas para la API
+router = routers.DefaultRouter()
+router.register('productos', ProductoViewset)
+router.register('tipo productos', TipoProductoViewset)
 
 urlpatterns = [
+    #API
+    path('api/', include(router.urls)),
+
+    path('shopapi/', shopapi, name="shopapi"),
     path('blog/', blog, name="blog"),
   
     path('category/', category, name="category"),

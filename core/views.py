@@ -5,7 +5,23 @@ from .forms import *
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from rest_framework import viewsets
+from .serializers import *
+import requests
 
+#instalar el requirements, poner resT_framework en settings, 
+# crear serializers.py y crear todo
+# en al view se importa y se crea un viewset
+
+# Creando una clase que va a permitir la transformacion
+class ProductoViewset(viewsets.ModelViewSet):
+    #queryset = Producto.objects.filter(tipo=3)
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializers
+
+class TipoProductoViewset(viewsets.ModelViewSet):
+    queryset = TipoProducto.objects.all()
+    serializer_class = TipoProductoSerializers
 
 # Create your views here.
 def blog(request):
@@ -30,8 +46,30 @@ def category(request):
     }
     return render(request, 'core/category.html', data)
 
-def checkout(request):
+def shopapi(request):
+    respuesta = requests.get('http://127.0.0.1:8000/api/productos/')
+    respuesta2 = requests.get('https://mindicador.cl/api')
+    respuesta3 = requests.get('https://rickandmortyapi.com/api/character')
     
+    # Transformacion del json, todos los datos de respuesta se almacenan en data
+    productos = respuesta.json()
+    monedas = respuesta2.json()
+    aux = respuesta3.json()
+    personajes = aux['results']
+
+
+    data = {
+        'listado': productos,
+        'moneda' : monedas,
+        'personajes' : personajes,
+    }
+
+    return render(request, 'core/category.html', data)
+
+def checkout(request):
+    respuesta = requests.get('https://mindicador.cl/api/dolar')
+    monedas = respuesta.json()
+    valor_usd = monedas['serie'][0]['valor']
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
     total = carro_compras.total()
@@ -40,14 +78,19 @@ def checkout(request):
     for item in items:
         total_productos += item.producto.precio * item.cantidad
 
-    valor_fijo = 7560
+    valor_fijo = 0
 
-    total_final = total_productos + valor_fijo
+    total_final_clp = (total_productos + valor_fijo)
+    total_final_usd = (total_productos + valor_fijo)/valor_usd
+
+
 
     data = {
         'items': items,
         'total': total,
-        'total_final' : total_final
+        'total_final_usd' : round(total_final_usd,2),
+        'total_final_clp' : total_final_clp
+
     }
 
     if request.method == 'POST':
