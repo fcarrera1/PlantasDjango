@@ -47,14 +47,14 @@
           {% if user.is_authenticated %}
             {% if user.is_superuser %}
               {% for aux in listado %}
-                {% if aux.stock <= 5 %}
+                {% if aux.stock < 5 %}
                   <div class="col-md-6 col-lg-4 col-xl-3">
                     <div class="card text-center card-product">
                       <div class="card-product__img">
                         {% if aux.imagen %}
                         <img class="card-img" src="{{ aux.imagen.url }}">
                         {% else %}
-                        <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
+                        <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                         {% endif %}
                         <ul class="card-product__imgOverlay">
                           <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a></li>
@@ -83,7 +83,7 @@
                           {% if aux.imagen %}
                           <img class="card-img" src="{{ aux.imagen.url }}">
                           {% else %}
-                          <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
+                          <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                           {% endif %}
                           <ul class="card-product__imgOverlay">
                             <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a></li>
@@ -109,7 +109,7 @@
                             {% if aux.imagen %}
                             <img class="card-img" src="{{ aux.imagen.url }}">
                             {% else %}
-                            <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
+                            <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                             {% endif %}
                             <ul class="card-product__imgOverlay">
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a></li>
@@ -137,7 +137,7 @@
                       {% if aux.imagen %}
                       <img class="card-img" src="{{ aux.imagen.url }}">
                       {% else %}
-                      <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
+                      <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                       {% endif %}
                       <ul class="card-product__imgOverlay">
                         <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a></li>

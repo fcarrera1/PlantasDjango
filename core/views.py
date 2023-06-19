@@ -6,12 +6,26 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from rest_framework import viewsets
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .serializers import *
 import requests
+
+
+# Funcion generica que valida el grupo:
+# para su uso: grupo_requerido('vendedor')
+def grupo_requerido(nombre_grupo):
+     def decorator(view_func):
+          @user_passes_test(lambda user: user.groups.filter(name=nombre_grupo).exists())
+          def wrapper(request, *args, **kwargs):
+               return view_func(request, *args, **kwargs)
+          return wrapper
+     return decorator
+
 
 #instalar el requirements, poner resT_framework en settings, 
 # crear serializers.py y crear todo
 # en al view se importa y se crea un viewset
+# Creamos permisos para el grupo:
 
 # Creando una clase que va a permitir la transformacion
 class ProductoViewset(viewsets.ModelViewSet):
@@ -26,6 +40,10 @@ class TipoProductoViewset(viewsets.ModelViewSet):
 # Create your views here.
 def blog(request):
 		return render(request, 'core/blog.html')
+
+def register(request):
+     return render(request, 'core/register.html')
+
 
 def category(request):
     productosAll = Producto.objects.all() # SELECT * FROM producto
@@ -46,6 +64,7 @@ def category(request):
     }
     return render(request, 'core/category.html', data)
 
+#@login_required
 def shopapi(request):
     respuesta = requests.get('http://127.0.0.1:8000/api/productos/')
     respuesta2 = requests.get('https://mindicador.cl/api')
@@ -66,6 +85,8 @@ def shopapi(request):
 
     return render(request, 'core/category.html', data)
 
+
+@grupo_requerido('Cliente')
 def checkout(request):
     respuesta = requests.get('https://mindicador.cl/api/dolar')
     monedas = respuesta.json()
@@ -105,6 +126,8 @@ def checkout(request):
 
     return render(request,'core/checkout.html',data)
 
+
+@grupo_requerido('cliente')
 def confirmation(request):
 
     carro_compras = CarroCompras.objects.get(usuario=request.user)
@@ -129,6 +152,8 @@ def confirmation(request):
 
     return render(request,'core/confirmation.html',data)
 
+
+@grupo_requerido('Cliente')
 def miscompras(request):
     return render(request,'core/miscompras.html')
 
@@ -153,9 +178,10 @@ def index(request):
 
 
 
-
+#Se puede eliminar:
 def singleblog(request):
 		return render(request, 'core/single-blog.html')
+
 
 def singleproduct(request, id):
     producto = Producto.objects.get(id=id) #buscamos un producto por su id (primer campo base de datos y el otro es nuestro)
@@ -167,10 +193,11 @@ def singleproduct(request, id):
 
     return render(request,'core/single-product.html',data)
 
-
+@grupo_requerido('Cliente')
 def trackingorder(request):
 		return render(request, 'core/tracking-order.html')
 
+@grupo_requerido('Cliente')
 def perfil(request):
     username = request.user.username
     email = request.user.email
@@ -178,12 +205,13 @@ def perfil(request):
     last_name = request.user.last_name
     return render(request, 'core/perfil.html', {'username': username, 'email': email, 'first_name': first_name, 'last_name': last_name})
 
-
+@grupo_requerido('Cliente')
 def wishlist(request):
         return render(request, 'core/wishlist.html')
 
 
 ## Crud
+@grupo_requerido('Vendedor')
 def add(request):
     data = {
         'form' : ProductoForm()
@@ -198,6 +226,7 @@ def add(request):
 
     return render(request,'core/add-product.html', data)
 
+@grupo_requerido('Vendedor')
 def update(request, id):
     producto = Producto.objects.get(id=id) #buscamos un producto por su id (primer campo base de datos y el otro es nuestro)
     data = {
@@ -216,6 +245,7 @@ def update(request, id):
 
     return render(request,'core/update-product.html',data)
 
+@grupo_requerido('Vendedor')
 def delete(request,id):
     producto = Producto.objects.get(id=id)
     producto.delete()
@@ -223,7 +253,7 @@ def delete(request,id):
     return redirect(to="index")
 
 
-    
+@grupo_requerido('Cliente')
 def cartadd(request,id):
     producto = Producto.objects.get(id=id)
     carro_compras, created = CarroCompras.objects.get_or_create(usuario=request.user)
@@ -231,12 +261,13 @@ def cartadd(request,id):
     if not item_created:
         carro_item.cantidad +=1
         carro_item.save()
-
+    
     carro_compras.items.add(carro_item)
     carro_compras.save()
 
     return redirect(to='cart')
 
+@grupo_requerido('Cliente')
 def cartdel(request,id):
     producto = Producto.objects.get(id=id)
     carro_compras = CarroCompras.objects.get(usuario = request.user)
@@ -250,6 +281,7 @@ def cartdel(request,id):
  
     return redirect(to='cart')
 
+@grupo_requerido('Cliente')
 def cart(request):
     
     carro_compras = CarroCompras.objects.get(usuario=request.user)
@@ -263,7 +295,7 @@ def cart(request):
 
     return render(request,'core/cart.html',data)
 
-
+@grupo_requerido('Cliente')
 def cartdelete(request,id):
     producto = Producto.objects.get(id=id)
     carro_compras = CarroCompras.objects.get(usuario = request.user)
@@ -273,6 +305,7 @@ def cartdelete(request,id):
     carro_item.delete()
     return redirect(to='cart')
 
+@grupo_requerido('Cliente')
 def add_compra(request): 
     carro_compras = CarroCompras.objects.get(usuario = request.user)
     items = carro_compras.items.all()
@@ -284,6 +317,7 @@ def add_compra(request):
     carro_compras.items.clear()
     return redirect(to='confirmation')
 
+@grupo_requerido('Cliente')
 def datoscart(request):
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
@@ -297,6 +331,7 @@ def datoscart(request):
 
     return render(request, 'core/confirmation.html', data)
 
+@grupo_requerido('Cliente')
 def miscompras(request):
     compras = Compra.objects.filter(usuario=request.user)
     data = []
@@ -312,6 +347,7 @@ def miscompras(request):
 
     return render(request, 'core/miscompras.html', {'data': data})
 
+@grupo_requerido('Cliente')
 def detalle(request,id):
     compra = Compra.objects.get(id=id)
     compra_items = CompraItem.objects.filter(compra=compra)
