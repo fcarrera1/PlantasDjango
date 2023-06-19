@@ -13,7 +13,11 @@
 		<div class="row s_product_inner">
 			<div class="col-lg-6">
 				<div class="single-prd-item">
+					{% if producto.imagen %}
 					<img class="img-fluid" src="{{ producto.imagen.url }}" alt="">
+					{% else %}
+					<img class="img-fluid" src="{% static 'core/img/fotos/notfound.png' %}" alt="">
+					{% endif %}
 				</div>
 			</div>
 
@@ -27,9 +31,17 @@
 						<li>{{producto.descripcion}}</li>
 					</ul>
 					{% if user.is_authenticated %}
-					<p><a class="button primary-btn" href=" {% url 'cartadd' producto.id %}">Añadir al carro</a></p>
+						{% if producto.stock > 0 %}
+							<p><a class="button primary-btn" href=" {% url 'cartadd' producto.id %}">Añadir al carro</a></p>
+						{% else %}
+							<p><a class="button primary-btn" href="">Producto no disponible</a></p>
+						{% endif %}
 					{% else %}
-					<p><a class="button primary-btn" href=" {% url 'login' %}">Añadir al carro</a></p>
+						{% if producto.stock > 0 %}
+							<p><a class="button primary-btn" href=" {% url 'login' %}">Añadir al carro</a></p>
+						{% else %}
+							<p><a class="button primary-btn" href="">Producto no disponible</a></p>
+						{% endif %}
 					{% endif %}
 					<div class="card_area d-flex align-items-center">
 						{% if user.is_authenticated %}
@@ -257,7 +269,7 @@
 									<ul class="list">
 										<li><a href="#">5 Estrellas <i class="fa fa-star"></i><i
 													class="fa fa-star"></i><i class="fa fa-star"></i><i
-													class="fa fa-star"></i><i class="fa fa-star"></i> 1</a></li>
+													class="fa fa-star"></i><i class="fa fa-star"></i> 3</a></li>
 										<li><a href="#">4 Estrellas <i class="fa fa-star"></i><i
 													class="fa fa-star"></i><i class="fa fa-star"></i><i
 													class="fa fa-star"></i><i class="fa fa-star"></i> 0</a></li>
