@@ -356,8 +356,10 @@ def add_compra(request):
     compra = Compra.objects.create(usuario = request.user)
     for item in items:
         CompraItem.objects.create(compra = compra, carro_item = item)
+        item.delete()
 
     carro_compras.items.clear()
+
     return redirect(to='confirmation')
 
 
@@ -375,25 +377,6 @@ def datoscart(request):
     }
 
     return render(request, 'core/confirmation.html', data)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @grupo_requerido('Cliente')
 def miscompras(request):
