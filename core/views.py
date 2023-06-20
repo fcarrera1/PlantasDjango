@@ -111,7 +111,7 @@ def checkout(request):
 
     total_rebaja += round(total * 0.95)
 
-    valor_fijo = 0
+    valor_fijo = 2000
 
     total_final_clp = (total_productos + valor_fijo)
     total_final_usd = (total_productos + valor_fijo)/valor_usd
@@ -139,19 +139,15 @@ def checkout(request):
 
 @grupo_requerido('cliente')
 def confirmation(request):
-
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
     total = carro_compras.total()
-    
-
 
     total_productos = 0
     for item in items:
         total_productos += item.producto.precio * item.cantidad
 
     valor_fijo = 7560
-
     total_final = total_productos + valor_fijo
 
     data = {
@@ -165,7 +161,12 @@ def confirmation(request):
 
 @grupo_requerido('Cliente')
 def miscompras(request):
-    return render(request,'core/miscompras.html')
+    compras = Compra.objects.filter(usuario=request.user)
+
+    data = {
+        'compras': compras
+    }
+    return render(request,'core/miscompras.html', data)
 
 def contact(request):
 		return render(request, 'core/contact.html')
@@ -183,23 +184,12 @@ def index(request):
 
     return render(request, 'core/index.html', data)
 
-
-
-
-
-
-#Se puede eliminar:
-def singleblog(request):
-		return render(request, 'core/single-blog.html')
-
-
 def singleproduct(request, id):
     producto = Producto.objects.get(id=id) #buscamos un producto por su id (primer campo base de datos y el otro es nuestro)
     data = {
         #'form' : ProductoForm(instance=producto) #Carga la info en el formulario
         'producto' : producto
     }
-        
 
     return render(request,'core/single-product.html',data)
 
@@ -218,7 +208,6 @@ def perfil(request):
 @grupo_requerido('Cliente')
 def wishlist(request):
         return render(request, 'core/wishlist.html')
-
 
 ## Crud
 @grupo_requerido('Vendedor')
@@ -250,7 +239,7 @@ def update(request, id):
             formulario.save() #Commit, update 
             #data['msj'] = "Producto modificado correctamente"
             messages.success(request, "Producto modificado correctamente")
-            data['form'] = formulario #actualizar visualmente el formulario 
+            data['form'] = formulario #actualizar visualmente el formulario
         
 
     return render(request,'core/update-product.html',data)
@@ -270,11 +259,12 @@ def cartadd(request, id):
     carro_item, item_created = CarroItem.objects.get_or_create(producto=producto, usuario=request.user)
 
     if not item_created:
-        if carro_item.cantidad < producto.stock:
+        if producto.stock >= 1:
             carro_item.cantidad += 1
             carro_item.save()
             producto.stock -= 1
             producto.save()
+            carro_compras.items.add(carro_item)
         else:
             return redirect(to='cart')
     else:
@@ -315,6 +305,7 @@ def cart(request):
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
     total = carro_compras.total()
+
     total_rebaja = 0
     precio_rebajado = 0
     total_rebaja_prod = 0
@@ -350,8 +341,15 @@ def cartdelete(request,id):
     producto.save()
     return redirect(to='cart')
 
+
+
+
+
+
+
+
 @grupo_requerido('Cliente')
-def add_compra(request): 
+def add_compra(request):
     carro_compras = CarroCompras.objects.get(usuario = request.user)
     items = carro_compras.items.all()
 
@@ -361,6 +359,8 @@ def add_compra(request):
 
     carro_compras.items.clear()
     return redirect(to='confirmation')
+
+
 
 @grupo_requerido('Cliente')
 def datoscart(request):
@@ -375,6 +375,25 @@ def datoscart(request):
     }
 
     return render(request, 'core/confirmation.html', data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @grupo_requerido('Cliente')
 def miscompras(request):
