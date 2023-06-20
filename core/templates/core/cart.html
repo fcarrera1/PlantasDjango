@@ -35,6 +35,127 @@
 
 
     <!--================Cart Area =================-->
+    {% if user.id == 3 %}
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in items %}
+
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img src="{{x.producto.imagen.url}}" alt="" height="80px" width="60px">
+                                                </div>
+                                                <div class="media-body">
+                                                    <p>{{ x.producto.nombre }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h5 style="text-decoration: line-through;">${{ x.producto.precio | intcomma}}</h5>
+                                            <h5>${{ x.precio_rebajado | intcomma }}</h5>
+                                        </td>
+                                        <td>
+                                            <h5><a href="{% url 'cartaddd'  x.producto.id %}" style="text-decoration: none;"><i class="ti-angle-up"></i></a>
+                                                {{ x.cantidad }}
+                                                <a href="{% url 'cartdel'  x.producto.id %}" style="text-decoration: none;"><i class="ti-angle-down"></i></a>
+                                            </h5>
+                                        </td>
+                                        <td>
+                                            <h5 style="text-decoration: line-through;">${{ x.subtotal | intcomma}}</h5>
+                                            <h5>${{ x.total_rebaja_prod | intcomma }}</h5>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'cartdelete' x.producto.id %}" style="text-decoration: none;"><i class="ti-trash"></i></a>
+                                        </td>
+                                    </tr>                            
+                            {% endfor %}
+                            
+                            <tr class="bottom_button">
+                                <td>
+                                   
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <h5>Total</h5>
+                                </td>
+                                <td>
+                                    <h5 style="text-decoration: line-through;">${{total | intcomma}}</h5>
+                                    <h5>${{ total_rebaja | intcomma}}</h5>
+                                </td>
+                            </tr>
+                            <tr class="shipping_area">
+                                <td class="d-none d-md-block">
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    <div class="shipping_box">
+                                        <h6>Detalles del envio <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
+                                        <select class="shipping_select">
+                                            <option value="1">Despacho a domicilio: $7.560</option>
+                                            <option value="2">Retiro en tienda: $0</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="out_button_area">
+                                <td class="d-none-l">
+
+                                </td>
+                                <td class="">
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-center">
+                                        <a class="gray_btn" href="{% url 'category' %}">Seguir Comprando</a>
+                                        <a class="primary-btn ml-1" href="{% url 'checkout' %}">Continuar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% else %}
     <section class="cart_area">
         <div class="container">
             <div class="cart_inner">
@@ -150,6 +271,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
     <!--================End Cart Area =================-->
 
 
