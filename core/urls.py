@@ -19,7 +19,6 @@ urlpatterns = [
     path('confirmation/', confirmation, name="confirmation"),
     path('contact/', contact, name="contact"),
     path('', index, name="index"),
-    path('singleblog/', singleblog, name="singleblog"),
     path('singleproduct/<id>', singleproduct, name="singleproduct"),
     path('trackingorder/', trackingorder, name="trackingorder"),
     path('register/', register, name="register"),

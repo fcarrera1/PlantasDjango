@@ -81,7 +81,7 @@
                 </ul>
                 <ul class="list list_2">
                   <li><a href="#">Subtotal <span>$ {{total_rebaja | intcomma}}</span></a></li>
-                  <li><a href="#">Envío: <span>$ 0</span></a></li>
+                  <li><a href="#">Envío: <span>$ 2.000</span></a></li>
                   <li><a href="#">Total CLP: <span>CLP $ {{ total_final_clp_reb | intcomma}}</span></a></li>
                   <li><a href="#">Total USD: <span>USD $ {{ total_final_usd_reb | intcomma}}</span></a></li>
 
@@ -171,7 +171,7 @@
                 </ul>
                 <ul class="list list_2">
                   <li><a href="#">Subtotal <span>$ {{total | intcomma}}</span></a></li>
-                  <li><a href="#">Envío: <span>$ 7,560</span></a></li>
+                  <li><a href="#">Envío: <span>$ 2.000</span></a></li>
                   <li><a href="#">Total CLP: <span>CLP $ {{ total_final_clp | intcomma}}</span></a></li>
                   <li><a href="#">Total USD: <span>USD $ {{ total_final_usd | intcomma}}</span></a></li>
 
@@ -179,11 +179,11 @@
                 <div class="payment_item active">
                   <div class="radion_btn">
                     <input type="radio" id="f-option6" name="selector">
-                    <label for="f-option6"> Webpay </label>
-                    <img src="{% static 'core/img/fotos/webpay.png' %}" alt="">
+                    <label for="f-option6"> Paypal </label>
+                    <img src="{% static 'core/img/fotos/paypal.png' %}" alt="">
                     <div class="check"></div>
                   </div>
-                  <p>Pagar vía Webpay: nuestro método de pago seguro y confiable, te permite realizar transacciones rápidas y seguras en nuestro sitio web. Aceptamos todas las principales tarjetas de crédito y débito.</p>
+                  <p>Pagar vía Paypal: nuestro método de pago seguro y confiable, te permite realizar transacciones rápidas y seguras en nuestro sitio web. Aceptamos todas las principales tarjetas de crédito.</p>
                 </div>
                 <div class="creat_account">
                   <input type="checkbox" id="f-option4" name="selector">
@@ -191,7 +191,8 @@
                   <a href="#">terminos de uso y condiciones*</a>
                 </div>
                 <div class="text-center">
-                  <p><div id="btnPaypal"></div></p>
+                    <a href="{% url 'add_compra' %}"> pagar</a>
+                  <!--<p><div id="btnPaypal"></div></p>-->
                 </div>
               </div>
             </div>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2023 a las 16:39:03
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.2.0
+-- Tiempo de generación: 20-06-2023 a las 06:03:13
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -108,6 +108,15 @@ CREATE TABLE `auth_group` (
   `name` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `auth_group`
+--
+
+INSERT INTO `auth_group` (`id`, `name`) VALUES
+(3, 'Administrador'),
+(1, 'Cliente'),
+(2, 'Vendedor');
+
 -- --------------------------------------------------------
 
 --
@@ -119,6 +128,90 @@ CREATE TABLE `auth_group_permissions` (
   `group_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `auth_group_permissions`
+--
+
+INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`) VALUES
+(9, 1, 29),
+(10, 1, 31),
+(1, 1, 32),
+(2, 1, 33),
+(3, 1, 36),
+(4, 1, 40),
+(5, 1, 44),
+(6, 1, 48),
+(7, 1, 49),
+(8, 1, 52),
+(25, 2, 29),
+(26, 2, 31),
+(11, 2, 32),
+(12, 2, 33),
+(13, 2, 36),
+(14, 2, 37),
+(15, 2, 38),
+(16, 2, 39),
+(17, 2, 40),
+(18, 2, 41),
+(19, 2, 42),
+(20, 2, 43),
+(21, 2, 44),
+(22, 2, 48),
+(23, 2, 49),
+(24, 2, 52),
+(27, 3, 1),
+(28, 3, 2),
+(29, 3, 3),
+(30, 3, 4),
+(31, 3, 5),
+(32, 3, 6),
+(33, 3, 7),
+(34, 3, 8),
+(35, 3, 9),
+(36, 3, 10),
+(37, 3, 11),
+(38, 3, 12),
+(39, 3, 13),
+(40, 3, 14),
+(41, 3, 15),
+(42, 3, 16),
+(43, 3, 17),
+(44, 3, 18),
+(45, 3, 19),
+(46, 3, 20),
+(47, 3, 21),
+(48, 3, 22),
+(49, 3, 23),
+(50, 3, 24),
+(51, 3, 25),
+(52, 3, 26),
+(53, 3, 27),
+(54, 3, 28),
+(55, 3, 29),
+(56, 3, 30),
+(57, 3, 31),
+(58, 3, 32),
+(59, 3, 33),
+(60, 3, 34),
+(61, 3, 35),
+(62, 3, 36),
+(63, 3, 37),
+(64, 3, 38),
+(65, 3, 39),
+(66, 3, 40),
+(67, 3, 41),
+(68, 3, 42),
+(69, 3, 43),
+(70, 3, 44),
+(71, 3, 45),
+(72, 3, 46),
+(73, 3, 47),
+(74, 3, 48),
+(75, 3, 49),
+(76, 3, 50),
+(77, 3, 51),
+(78, 3, 52);
 
 -- --------------------------------------------------------
 
@@ -216,9 +309,10 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$216000$SH2WdCpHkJPo$vrtHxo6Xq/pO/obY01ZcK6ONuckdivIt2JZLjU8BYDY=', '2023-06-06 14:34:15.775577', 1, 'admin', 'administrador', '', 'admin@admin.cl', 1, 1, '2023-06-06 13:43:32.287705'),
-(2, 'pbkdf2_sha256$216000$W9CFDP1MUzOQ$C5jYEluElOl0cEX1wcqvVX2DiDdIWlgPvVaxg6cBOII=', '2023-06-06 14:35:45.726283', 0, 'maria', 'María González', '', 'mariagonzalez@example.com', 0, 1, '2023-06-06 14:28:43.000000'),
-(3, 'pbkdf2_sha256$216000$agUWbhNI9BSK$sTBiaq2d9AVnwHzxWJQMwXwReX57P1qx4VOmJq4/fWI=', '2023-06-06 14:36:10.437211', 0, 'suscri', 'Suscriptor', '', 'suscriptor@suscriptor.cl', 0, 1, '2023-06-06 14:29:07.000000');
+(1, 'pbkdf2_sha256$216000$SH2WdCpHkJPo$vrtHxo6Xq/pO/obY01ZcK6ONuckdivIt2JZLjU8BYDY=', '2023-06-19 22:57:23.410740', 1, 'admin', 'administrador', '', 'admin@admin.cl', 1, 1, '2023-06-06 13:43:32.000000'),
+(2, 'pbkdf2_sha256$216000$W9CFDP1MUzOQ$C5jYEluElOl0cEX1wcqvVX2DiDdIWlgPvVaxg6cBOII=', '2023-06-20 03:56:59.638729', 0, 'maria', 'María González', '', 'mariagonzalez@example.com', 0, 1, '2023-06-06 14:28:43.000000'),
+(3, 'pbkdf2_sha256$216000$agUWbhNI9BSK$sTBiaq2d9AVnwHzxWJQMwXwReX57P1qx4VOmJq4/fWI=', '2023-06-19 23:23:41.722662', 0, 'suscri', 'Suscriptor', '', 'suscriptor@suscriptor.cl', 0, 1, '2023-06-06 14:29:07.000000'),
+(5, 'pbkdf2_sha256$216000$9kwF2IH8gWo6$VAD9dlWKOFsD9m9UHywj5kOV1pZ31/ckU0Tgka+lQGE=', NULL, 0, 'vendedor', '', '', '', 0, 1, '2023-06-19 21:11:37.000000');
 
 -- --------------------------------------------------------
 
@@ -231,6 +325,18 @@ CREATE TABLE `auth_user_groups` (
   `user_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `auth_user_groups`
+--
+
+INSERT INTO `auth_user_groups` (`id`, `user_id`, `group_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 2, 1),
+(5, 3, 1),
+(8, 5, 2);
 
 -- --------------------------------------------------------
 
@@ -263,9 +369,9 @@ CREATE TABLE `core_carrocompras` (
 --
 
 INSERT INTO `core_carrocompras` (`id`, `created_at`, `updated_at`, `compra_id`, `usuario_id`) VALUES
-(1, '2023-06-06 14:35:04.324478', '2023-06-06 14:35:04.330863', NULL, 1),
-(2, '2023-06-06 14:35:49.932027', '2023-06-06 14:35:49.938028', NULL, 2),
-(3, '2023-06-06 14:36:19.868006', '2023-06-06 14:36:19.878974', NULL, 3);
+(1, '2023-06-06 14:35:04.324478', '2023-06-19 22:36:42.027875', NULL, 1),
+(2, '2023-06-06 14:35:49.932027', '2023-06-20 03:57:19.000547', NULL, 2),
+(3, '2023-06-06 14:36:19.868006', '2023-06-20 03:05:17.871206', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -294,6 +400,15 @@ CREATE TABLE `core_carroitem` (
   `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `core_carroitem`
+--
+
+INSERT INTO `core_carroitem` (`id`, `cantidad`, `created_at`, `updated_at`, `producto_id`, `usuario_id`) VALUES
+(6, 2, '2023-06-19 21:14:18.993815', '2023-06-19 22:47:33.497705', 5, 2),
+(76, 1, '2023-06-19 23:23:27.304460', '2023-06-20 03:57:20.868256', 13, 2),
+(80, 1, '2023-06-20 03:05:17.862206', '2023-06-20 03:05:17.864206', 13, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -308,6 +423,15 @@ CREATE TABLE `core_compra` (
   `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Volcado de datos para la tabla `core_compra`
+--
+
+INSERT INTO `core_compra` (`id`, `fecha`, `created_at`, `updated_at`, `usuario_id`) VALUES
+(4, '2023-06-19 21:15:40.910852', '2023-06-19 21:15:40.910852', '2023-06-19 21:15:40.910852', 2),
+(5, '2023-06-20 03:56:40.078637', '2023-06-20 03:56:40.078637', '2023-06-20 03:56:40.078637', 3),
+(6, '2023-06-20 03:57:55.103446', '2023-06-20 03:57:55.103446', '2023-06-20 03:57:55.103446', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -321,6 +445,14 @@ CREATE TABLE `core_compraitem` (
   `carro_item_id` int(11) NOT NULL,
   `compra_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `core_compraitem`
+--
+
+INSERT INTO `core_compraitem` (`id`, `created_at`, `updated_at`, `carro_item_id`, `compra_id`) VALUES
+(3, '2023-06-20 03:56:40.088637', '2023-06-20 03:56:40.088637', 80, 5),
+(4, '2023-06-20 03:57:55.108446', '2023-06-20 03:57:55.108446', 76, 6);
 
 -- --------------------------------------------------------
 
@@ -345,21 +477,19 @@ CREATE TABLE `core_producto` (
 --
 
 INSERT INTO `core_producto` (`id`, `nombre`, `precio`, `stock`, `descripcion`, `imagen`, `created_at`, `updated_at`, `tipo_id`) VALUES
-(5, 'macetero', 2000, 23, 'macetero común', '2406_LcTXjjc.png', '2023-06-06 14:13:12.121336', '2023-06-06 14:13:12.121336', 1),
-(6, 'Tierra de hojas', 3000, 7, 'Tierra de hojas de 80L', '461997_01_sW4DYC8.png', '2023-06-06 14:13:50.815116', '2023-06-06 14:13:50.816114', 3),
-(7, 'Arbusto', 4000, 3, 'alsdjalsdjajs', 'arbusto_p4GbLmU.png', '2023-06-06 14:14:17.871824', '2023-06-06 14:14:17.871824', 2),
-(8, 'flores', 1000, 13, 'Ramo de flores', 'flores_0NyEddt.png', '2023-06-06 14:14:43.737761', '2023-06-06 14:14:43.737761', 4),
-(9, 'Rosas', 1000, 3, 'Ramo de rosas', 'flores2_fijwCjq.png', '2023-06-06 14:15:04.617821', '2023-06-06 14:15:04.618820', 4),
-(10, 'girasoles', 3000, 8, 'Ramo de girasoles', 'flores3_3GaNQ7s.webp', '2023-06-06 14:15:34.202989', '2023-06-06 14:15:34.202989', 4),
-(11, 'Rosas', 2000, 6, 'Ramo de rosas', 'flores4_WgHx93E.jpg', '2023-06-06 14:17:16.915440', '2023-06-06 14:17:16.915440', 4),
+(5, 'macetero', 2000, 1, 'macetero común', '2406_LcTXjjc.png', '2023-06-06 14:13:12.121336', '2023-06-19 23:00:27.955109', 1),
+(6, 'Tierra de hojas', 3000, 2, 'Tierra de hojas de 80L', '461997_01_sW4DYC8.png', '2023-06-06 14:13:50.815116', '2023-06-19 23:00:36.745920', 3),
+(7, 'Arbusto', 4000, 4, 'alsdjalsdjajs', 'arbusto_p4GbLmU.png', '2023-06-06 14:14:17.871824', '2023-06-19 22:58:17.251941', 2),
+(8, 'flores', 1000, 5, 'Ramo de flores', 'flores_0NyEddt.png', '2023-06-06 14:14:43.737761', '2023-06-19 23:00:49.280081', 4),
+(9, 'Rosas', 1000, 2, 'Ramo de rosas', 'flores2_fijwCjq.png', '2023-06-06 14:15:04.617821', '2023-06-19 21:42:17.120393', 4),
+(11, 'Rosas', 2000, 13, 'Ramo de rosas', 'flores4_WgHx93E.jpg', '2023-06-06 14:17:16.915440', '2023-06-20 03:57:06.864634', 4),
 (12, 'Macetero', 4000, 9, 'Macetero común grande', 'gsc_116336358_1449289_5_clNC8lm.png', '2023-06-06 14:17:51.816807', '2023-06-06 14:17:51.816807', 1),
-(13, 'Macetero de cemento', 5000, 2, 'Macetero para plantas hecho de cemento', 'macetero_a1cJsWp.jfif', '2023-06-06 14:18:34.652424', '2023-06-06 14:18:34.652424', 1),
-(14, 'Macetero de gato', 3000, 16, 'Macetero pequeño con forma de gato', 'macetero2_xlWOPrH.png', '2023-06-06 14:19:13.865928', '2023-06-06 14:19:13.866928', 1),
-(15, 'Macetero de cerámica', 5000, 13, 'Macetero de cerámica grande', 'macetero3_KbK19k0.png', '2023-06-06 14:19:58.918080', '2023-06-06 14:19:58.918080', 1),
-(16, 'Macetero pequeño', 1000, 7, 'Macetero pequeño', 'macetero4_cPxrFYk.png', '2023-06-06 14:20:37.360064', '2023-06-06 14:20:37.360064', 1),
-(17, 'Rosas arcoíris', 3000, 10, 'Ramo de 12 rosas arcoíris', 'ramo_12_rosas_arcoiris_feel_1_1b5O8uX.png', '2023-06-06 14:21:07.982493', '2023-06-06 14:21:07.982493', 4),
+(13, 'Macetero de cemento', 5000, 10, 'Macetero para plantas hecho de cemento', 'macetero_a1cJsWp.jfif', '2023-06-06 14:18:34.652424', '2023-06-20 03:57:20.870256', 1),
+(14, 'Macetero de gato', 3000, 9, 'Macetero pequeño con forma de gato', 'macetero2_xlWOPrH.png', '2023-06-06 14:19:13.865928', '2023-06-19 21:48:31.407477', 1),
+(16, 'Macetero pequeño', 1000, 13, 'Macetero pequeño', 'macetero4_cPxrFYk.png', '2023-06-06 14:20:37.360064', '2023-06-19 21:54:43.549829', 1),
+(17, 'Rosas arcoíris', 3000, 10, 'Ramo de 12 rosas arcoíris', 'ramo_12_rosas_arcoiris_feel_1_1b5O8uX.png', '2023-06-06 14:21:07.982493', '2023-06-20 03:05:00.582700', 4),
 (18, 'Tierra de hojas 50L', 1000, 7, 'Tierra de hojas de 50L', 'tierra3_MOmgFVk.png', '2023-06-06 14:21:39.149928', '2023-06-06 14:21:39.149928', 3),
-(19, 'Tierra de hojas 80L', 3000, 4, 'Tierra de hojas anasac de 80L', 'tierra4_kcCZQsk.jfif', '2023-06-06 14:23:40.279497', '2023-06-06 14:23:40.279497', 3);
+(19, 'Tierra de hojas 80L', 3000, 14, 'Tierra de hojas anasac de 80L', 'tierra4_kcCZQsk.jfif', '2023-06-06 14:23:40.279497', '2023-06-20 03:05:11.827698', 3);
 
 -- --------------------------------------------------------
 
@@ -420,7 +550,24 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (12, '2023-06-06 14:34:29.631052', '3', 'Compra realizada por suscri', 1, '[{\"added\": {}}]', 9, 1),
 (13, '2023-06-06 14:34:41.155600', '3', 'Compra realizada por suscri', 3, '', 9, 1),
 (14, '2023-06-06 14:34:43.563155', '2', 'Compra realizada por maria', 3, '', 9, 1),
-(15, '2023-06-06 14:34:45.795350', '1', 'Compra realizada por admin', 3, '', 9, 1);
+(15, '2023-06-06 14:34:45.795350', '1', 'Compra realizada por admin', 3, '', 9, 1),
+(16, '2023-06-19 20:51:47.095356', '1', 'Cliente', 1, '[{\"added\": {}}]', 4, 1),
+(17, '2023-06-19 20:52:52.485703', '2', 'Vendedor', 1, '[{\"added\": {}}]', 4, 1),
+(18, '2023-06-19 20:52:57.439094', '3', 'Administrador', 1, '[{\"added\": {}}]', 4, 1),
+(19, '2023-06-19 20:53:00.304606', '3', 'Administrador', 2, '[{\"changed\": {\"fields\": [\"Permissions\"]}}]', 4, 1),
+(20, '2023-06-19 20:53:27.491352', '4', 'usuario', 1, '[{\"added\": {}}]', 5, 1),
+(21, '2023-06-19 20:53:28.581965', '4', 'usuario', 2, '[]', 5, 1),
+(22, '2023-06-19 20:53:35.836473', '1', 'admin', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 5, 1),
+(23, '2023-06-19 20:53:43.746453', '2', 'maria', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 5, 1),
+(24, '2023-06-19 20:53:46.757024', '3', 'suscri', 2, '[]', 5, 1),
+(25, '2023-06-19 20:53:52.721907', '3', 'suscri', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 5, 1),
+(26, '2023-06-19 20:53:59.451571', '4', 'usuario', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 5, 1),
+(27, '2023-06-19 21:11:28.073938', '4', 'usuario', 3, '', 5, 1),
+(28, '2023-06-19 21:11:37.678553', '5', 'vendedor', 1, '[{\"added\": {}}]', 5, 1),
+(29, '2023-06-19 21:11:38.625497', '5', 'vendedor', 2, '[]', 5, 1),
+(30, '2023-06-19 21:11:45.849230', '5', 'vendedor', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 5, 1),
+(31, '2023-06-19 21:59:11.323808', '1', 'CompraItem object (1)', 3, '', 12, 1),
+(32, '2023-06-19 21:59:13.798738', '2', 'CompraItem object (2)', 3, '', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -519,7 +666,9 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (46, 'auth', '0011_update_proxy_permissions', '2023-06-06 13:41:19.999768'),
 (47, 'auth', '0012_alter_user_first_name_max_length', '2023-06-06 13:41:20.015773'),
 (48, 'core', '0001_initial', '2023-06-06 13:41:20.208266'),
-(49, 'sessions', '0001_initial', '2023-06-06 13:41:20.480965');
+(49, 'sessions', '0001_initial', '2023-06-06 13:41:20.480965'),
+(50, 'core', '0002_auto_20230619_1801', '2023-06-19 22:01:43.582630'),
+(51, 'core', '0003_auto_20230619_1802', '2023-06-19 22:02:50.545133');
 
 -- --------------------------------------------------------
 
@@ -690,13 +839,13 @@ ALTER TABLE `admin_interface_theme`
 -- AUTO_INCREMENT de la tabla `auth_group`
 --
 ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_permission`
@@ -708,13 +857,13 @@ ALTER TABLE `auth_permission`
 -- AUTO_INCREMENT de la tabla `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user_groups`
 --
 ALTER TABLE `auth_user_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `auth_user_user_permissions`
@@ -732,25 +881,25 @@ ALTER TABLE `core_carrocompras`
 -- AUTO_INCREMENT de la tabla `core_carrocompras_items`
 --
 ALTER TABLE `core_carrocompras_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=402;
 
 --
 -- AUTO_INCREMENT de la tabla `core_carroitem`
 --
 ALTER TABLE `core_carroitem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `core_compra`
 --
 ALTER TABLE `core_compra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `core_compraitem`
 --
 ALTER TABLE `core_compraitem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `core_producto`
@@ -768,7 +917,7 @@ ALTER TABLE `core_tipoproducto`
 -- AUTO_INCREMENT de la tabla `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `django_content_type`
@@ -780,7 +929,7 @@ ALTER TABLE `django_content_type`
 -- AUTO_INCREMENT de la tabla `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Restricciones para tablas volcadas

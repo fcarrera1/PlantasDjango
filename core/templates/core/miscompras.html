@@ -24,12 +24,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for x in data %}
+                        {% for x in compras %}
                             <tr>
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
-                                            <h5> {{ x.compra.id }}</h5>
+                                            <h5> {{ x.id }}</h5>
                                         </div>
                                         <div class="media-body">
                                             <p></p>
@@ -38,7 +38,7 @@
                                 </td>
 
                                 <td>
-                                    <h5>$ {{ x.total | intcomma }}</h5>
+                                    <h5>$ {{ x.subtotal | intcomma }}</h5>
                                 </td>
                                 <td>
                                     <h5>
