@@ -94,23 +94,38 @@ def checkout(request):
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
     total = carro_compras.total()
+
+    total_rebaja = 0
+    precio_rebajado = 0
+    total_rebaja_prod = 0
     
     total_productos = 0
-    for item in items:
-        total_productos += item.producto.precio * item.cantidad
+    for x in items:
+        total_productos += x.producto.precio * x.cantidad
+
+        precio_rebajado = round(x.producto.precio * 0.95)
+        x.precio_rebajado = precio_rebajado
+
+        total_rebaja_prod = precio_rebajado * x.cantidad
+        x.total_rebaja_prod = total_rebaja_prod
+
+    total_rebaja += round(total * 0.95)
 
     valor_fijo = 0
 
     total_final_clp = (total_productos + valor_fijo)
     total_final_usd = (total_productos + valor_fijo)/valor_usd
 
-
-
+    total_final_clp_reb = (precio_rebajado+ valor_fijo)
+    total_final_usd_reb = (precio_rebajado + valor_fijo)/valor_usd
     data = {
         'items': items,
         'total': total,
         'total_final_usd' : round(total_final_usd,2),
-        'total_final_clp' : total_final_clp
+        'total_final_clp' : total_final_clp,
+        'total_rebaja': total_rebaja,
+        'total_final_clp_reb': total_final_clp_reb,
+        'total_final_usd_reb': round(total_final_usd_reb,2),
 
     }
 
@@ -118,11 +133,6 @@ def checkout(request):
         compra = Compra.objects.create(usuario=request.user)
         for item in items:
             CompraItem.objects.create(compra=compra, carro_item=item)
-
-        carro_compras.compra = compra
-        carro_compras.save()
-        
-        return render(request, 'core/confirmation.html', data)
 
     return render(request,'core/checkout.html',data)
 
@@ -254,15 +264,29 @@ def delete(request,id):
 
 
 @grupo_requerido('Cliente')
-def cartadd(request,id):
+def cartadd(request, id):
     producto = Producto.objects.get(id=id)
     carro_compras, created = CarroCompras.objects.get_or_create(usuario=request.user)
     carro_item, item_created = CarroItem.objects.get_or_create(producto=producto, usuario=request.user)
+
     if not item_created:
-        carro_item.cantidad +=1
-        carro_item.save()
+        if carro_item.cantidad < producto.stock:
+            carro_item.cantidad += 1
+            carro_item.save()
+            producto.stock -= 1
+            producto.save()
+        else:
+            return redirect(to='cart')
+    else:
+        if producto.stock >= 1:  
+            carro_item.cantidad = 1
+            carro_item.save()
+            producto.stock -= 1
+            producto.save()
+            carro_compras.items.add(carro_item)
+        else:
+            return redirect(to='cart')
     
-    carro_compras.items.add(carro_item)
     carro_compras.save()
 
     return redirect(to='cart')
@@ -272,26 +296,44 @@ def cartdel(request,id):
     producto = Producto.objects.get(id=id)
     carro_compras = CarroCompras.objects.get(usuario = request.user)
     carro_item = carro_compras.items.get(producto=producto)
+    
     if carro_item.cantidad > 1:
         carro_item.cantidad -= 1
         carro_item.save()
+        
     else:
         carro_compras.items.remove(carro_item)
         carro_item.delete()
- 
+    
+    producto.stock +=1
+    producto.save()
+
     return redirect(to='cart')
 
 @grupo_requerido('Cliente')
 def cart(request):
-    
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
     total = carro_compras.total()
+    total_rebaja = 0
+    precio_rebajado = 0
+    total_rebaja_prod = 0
+
+    for x in items:
+        precio_rebajado = round(x.producto.precio * 0.95)
+        x.precio_rebajado = precio_rebajado
+
+        total_rebaja_prod = precio_rebajado * x.cantidad
+        x.total_rebaja_prod = total_rebaja_prod
+    
+    total_rebaja += round(total * 0.95)
 
     data = {
         'items': items,
         'total': total,
+        'total_rebaja': total_rebaja,
     }
+
 
     return render(request,'core/cart.html',data)
 
@@ -303,6 +345,9 @@ def cartdelete(request,id):
 
     carro_compras.items.remove(carro_item)
     carro_item.delete()
+
+    producto.stock += carro_item.cantidad
+    producto.save()
     return redirect(to='cart')
 
 @grupo_requerido('Cliente')
@@ -322,7 +367,7 @@ def datoscart(request):
     carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
     total = carro_compras.total()
-
+        
     data = {
         'carro_compras': carro_compras,
         'items': items,

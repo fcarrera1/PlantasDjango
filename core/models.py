@@ -15,7 +15,7 @@ class TipoProducto(models.Model):
 # TABLA PRODUCTO
 class Producto(models.Model):
     nombre = models.CharField(max_length=50)
-    precio = models.IntegerField()
+    precio = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
     tipo = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=250)
