@@ -23,19 +23,21 @@
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="confirmation-card">
             <h3 class="billing-title">Información pedido</h3>
+            
             <table class="order-rable">
               <tr>
-                <td>Order number</td>
-                <td>: 26</td>
+                <td>N° Pedido</td>
+                <td>: {{ compra_id }}</td>
               </tr>
               <tr>
-                <td>Date</td>
+                <td>Fecha </td>
                 <td>: 23/05/2023</td>
               </tr>
               <tr>
                 <td>Total</td>
-                <td>: $ 50,000</td>
+                <td>: $ {{ carro_compras.total }}</td>
               </tr>
+              
               <tr>
                 <td>Payment method</td>
                 <td>: WebPay </td>
@@ -45,7 +47,7 @@
         </div>
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="confirmation-card">
-            <h3 class="billing-title">Shipping Address</h3>
+            <h3 class="billing-title">Información de envío </h3>
             <table class="order-rable">
               <tr>
                 <td>Street</td>
@@ -82,18 +84,18 @@
               </tr>
             </thead>
             <tbody>
-              
+              {% for x in compra_items %}
               <tr>
                   <td>
-                    <p>{{ x.producto.nombre }}</p>
+                    <p>{{ x.carro_item.nombre }}</p>
                   </td>
                   <td>
-                    <h5>x {{ x.cantidad }}</h5>
+                    <h5>x {{ x.producto.cantidad }}</h5>
                   </td>
                   <td>
-                    <p>$ {{ x.subtotal | intcomma}}</p>
+                    <p>$ </p>
                   </td>
-                </tr>
+              </tr>
               <tr>
                 <td>
                   <h4>Subtotal</h4>
@@ -102,7 +104,7 @@
                   <h5></h5>
                 </td>
                 <td>
-                  <p>$ {{ total | intcomma }}</p>
+                  <p>$ </p>
                 </td>
               </tr>
               <tr>
@@ -124,14 +126,15 @@
                   <h5></h5>
                 </td>
                 <td>
-                  <h4>$ {{ total_final | intcomma }}</h4>
+                  <h4>$ </h4>
                 </td>
               </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>
       </div>
-      <a href="{% url 'miscompras' %}" class="btn btn-primary">Acceder a mis Compras</a>
+      <a href="" class="btn btn-primary">Acceder a mis Compras</a>
     </div>
     
   </section>

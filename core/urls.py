@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import *
 from rest_framework import routers
+from . import views
 
 # creamos las rutas para la API
 router = routers.DefaultRouter()
@@ -16,11 +17,10 @@ urlpatterns = [
   
     path('category/', category, name="category"),
     path('checkout/', checkout, name="checkout"),
-    path('confirmation/', confirmation, name="confirmation"),
     path('contact/', contact, name="contact"),
     path('', index, name="index"),
-    path('singleproduct/<id>', singleproduct, name="singleproduct"),
-    path('trackingorder/', trackingorder, name="trackingorder"),
+    path('singleproduct/<id>/', singleproduct, name="singleproduct"),
+    path('trackingorder/<id>', trackingorder, name="trackingorder"),
     path('register/', register, name="register"),
     path('perfil/', perfil, name="perfil"),
     path('wishlist/', wishlist, name= "wishlist"),
@@ -30,9 +30,9 @@ urlpatterns = [
     path('cart/', cart, name="cart"),
     path('cartadd/<id>/', cartadd, name="cartadd"),
     path('cart/cartdel/<id>/', cartdel, name="cartdel"),
-    path('cart/cartadd/<id>',cartadd, name="cartaddd"),
-    path('cart/cartdelete/<id>',cartdelete, name="cartdelete"),
+    path('cart/cartadd/<id>/',cartadd, name="cartaddd"),
+    path('cart/cartdelete/<id>/',cartdelete, name="cartdelete"),
     path('add_compra/', add_compra, name="add_compra"),
     path('miscompras/', miscompras, name = "miscompras"),
-    path('detalle/<id>', detalle, name="detalle")
+    path('detalle/<id>/', detalle, name="detalle")
 ]
