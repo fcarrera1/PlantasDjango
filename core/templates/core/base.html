@@ -61,10 +61,10 @@
                             {% endif%}
                             
                             {% if user.is_authenticated %}
-                                {% if user.id <= 4 %}
-                                    <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil</a></li>
-                                {% elif user.id == 5 %}
-                                <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil <i class="ti-star" style="color: yellow;"></i> </a></li>
+                                {% if user.id == 3 %}
+                                    <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil <i class="ti-star" style="color: yellow;"></i> </a></li>
+                                {% else %}
+                                    <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil </a></li>
                                 {% endif %}
                             {% else %}
                             <li class="nav-item"><a class="button button-header " href="{% url 'login' %}" style="color: white;">Iniciar Sesion</a></li>

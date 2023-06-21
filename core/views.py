@@ -4,12 +4,13 @@ from .models import *
 from .forms import *
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .serializers import *
 import requests
 from django.db.models import Sum
+from django.contrib.auth import authenticate, login
 
 
 # Funcion generica que valida el grupo:
@@ -42,8 +43,6 @@ class TipoProductoViewset(viewsets.ModelViewSet):
 def blog(request):
 		return render(request, 'core/blog.html')
 
-def register(request):
-     return render(request, 'core/register.html')
 
 
 def category(request):
@@ -380,3 +379,23 @@ def detalle(request,id):
     }
     
     return render(request, 'core/detalle.html', data)
+
+
+def registro(request):
+    data = {
+        'form': CustomUserCreationForm
+    }
+
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            user.groups.add(Group.objects.get(name='Cliente'))
+            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            login(request, user)
+            messages.success(request, "Te has registrado correctamente")
+            return redirect(to="index")
+        data["form"] = formulario
+    return render(request, 'registration/registro.html', data)
+
+
