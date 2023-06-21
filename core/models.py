@@ -36,29 +36,9 @@ class CarroItem(models.Model):
     def subtotal(self):
         return self.producto.precio * self.cantidad
 
-class Compra(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha = models.DateTimeField(auto_now_add = True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'Compra realizada por {self.usuario.username}'
-
-class CompraItem(models.Model):
-    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
-    carro_item = models.ForeignKey(CarroItem, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def subtotal(self):
-        return self.carro_item.producto.precio * self.carro_item.cantidad
-
-
 class CarroCompras(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(CarroItem)
-    compra = models.ForeignKey(Compra, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -68,3 +48,30 @@ class CarroCompras(models.Model):
             total += item.subtotal()
         return total
 
+class Compra(models.Model):
+    ESTADOS = (
+        ('validacion', 'Validación'),
+        ('preparacion', 'Preparación'),
+        ('reparto', 'Reparto'),
+        ('entregado', 'Entregado'),
+    )
+
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    total = models.PositiveIntegerField()
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='validacion')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Compra #{self.pk} realizada por {self.usuario.username}'
+
+class CompraItem(models.Model):
+    compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
+    carro_item = models.ForeignKey(CarroItem, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def subtotal(self):
+        return self.carro_item.producto.precio * self.carro_item.cantidad

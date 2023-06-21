@@ -22,31 +22,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for x in productos %}
+                        
                         <tr>
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="{{x.producto.imagen.url}}" alt="" height="80px" width="60px">
+                                        <img src="" alt="" height="80px" width="60px">
                                     </div>
                                     <div class="media-body">
-                                        <p>{{ x.producto.nombre }}</p>
+                                        <p></p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h5>$ {{ x.producto.precio | intcomma }}</h5>
+                                <h5>$ </h5>
                             </td>
                             <td>
-                                <h5>{{ x.cantidad }}</h5>
+                                <h5></h5>
                             </td>
                             <td>
                                 <h5>
-                                    ${{ x.total | intcomma}}
+                                    $
                                 </h5>
                             </td>
                         </tr>
-                        {% endfor %}
+                        
                         
                         <tr class="bottom_button">
                             <td>

@@ -9,6 +9,7 @@ from rest_framework import viewsets
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .serializers import *
 import requests
+from django.db.models import Sum
 
 
 # Funcion generica que valida el grupo:
@@ -137,26 +138,7 @@ def checkout(request):
     return render(request,'core/checkout.html',data)
 
 
-@grupo_requerido('cliente')
-def confirmation(request):
-    carro_compras = CarroCompras.objects.get(usuario=request.user)
-    items = carro_compras.items.all()
-    total = carro_compras.total()
 
-    total_productos = 0
-    for item in items:
-        total_productos += item.producto.precio * item.cantidad
-
-    valor_fijo = 7560
-    total_final = total_productos + valor_fijo
-
-    data = {
-        'items': items,
-        'total': total,
-        'total_final' : total_final
-    }
-
-    return render(request,'core/confirmation.html',data)
 
 
 @grupo_requerido('Cliente')
@@ -194,8 +176,14 @@ def singleproduct(request, id):
     return render(request,'core/single-product.html',data)
 
 @grupo_requerido('Cliente')
-def trackingorder(request):
-		return render(request, 'core/tracking-order.html')
+def trackingorder(request,id):
+    compra = Compra.objects.get(id=id)
+    
+    data = {
+        'compra': compra,
+    }
+
+    return render(request, 'core/tracking-order.html',data)
 
 @grupo_requerido('Cliente')
 def perfil(request):
@@ -343,82 +331,52 @@ def cartdelete(request,id):
 
 
 
-
-
-
-
-
 @grupo_requerido('Cliente')
 def add_compra(request):
-    carro_compras = CarroCompras.objects.get(usuario = request.user)
+    carro_compras = CarroCompras.objects.get(usuario=request.user)
     items = carro_compras.items.all()
+    total_carro = carro_compras.items.aggregate(total=Sum('producto__precio'))['total']
 
-    compra = Compra.objects.create(usuario = request.user)
+    compra = Compra.objects.create(usuario=request.user, total=total_carro, estado='validacion')
+
     for item in items:
-        CompraItem.objects.create(compra = compra, carro_item = item)
+        CompraItem.objects.create(compra=compra, carro_item=item)
         item.delete()
 
     carro_compras.items.clear()
 
-    return redirect(to='confirmation')
-
+    return redirect('miscompras')
 
 
 @grupo_requerido('Cliente')
-def datoscart(request):
-    carro_compras = CarroCompras.objects.get(usuario=request.user)
-    items = carro_compras.items.all()
-    total = carro_compras.total()
-        
+def mis_compras(request):
+    compras = Compra.objects.filter(usuario=request.user)
+
+    compras_con_totales = []
+    for compra in compras:
+        carro_compras = CarroCompras.objects.get(usuario=compra.usuario)
+        cantidad_productos = sum(item.cantidad for item in carro_compras.items.all())
+
+        total = compra.compraitem_set.annotate(subtotal=F('carro_item__producto__precio') * F('carro_item__cantidad')).aggregate(total=Sum('subtotal'))['total'] * cantidad_productos
+        compras_con_totales.append({'compra': compra, 'total': total})
+
     data = {
-        'carro_compras': carro_compras,
-        'items': items,
-        'total': total,
+        'compras': compras_con_totales,
+        'total_general': sum(item['total'] for item in compras_con_totales)
     }
 
-    return render(request, 'core/confirmation.html', data)
+    return render(request, 'core/mis_compras.html', data)
 
-@grupo_requerido('Cliente')
-def miscompras(request):
-    compras = Compra.objects.filter(usuario=request.user)
-    data = []
 
-    for compra in compras:
-        compra_items = CompraItem.objects.filter(compra=compra)
-        total = 0
-
-        for item in compra_items:
-            total += item.carro_item.producto.precio * item.carro_item.cantidad
-
-        data.append({'compra': compra, 'total': total})
-
-    return render(request, 'core/miscompras.html', {'data': data})
 
 @grupo_requerido('Cliente')
 def detalle(request,id):
     compra = Compra.objects.get(id=id)
-    compra_items = CompraItem.objects.filter(compra=compra)
-    
-    productos = []
-    total_compra = 0
 
-    for x in compra_items:
-        producto = x.carro_item.producto
-        cantidad = x.carro_item.cantidad
-        total_producto = producto.precio * cantidad
 
-        productos.append({
-            'producto': producto,
-            'cantidad': cantidad,
-            'total': total_producto
-        })
-
-        total_compra += total_producto
 
     data = {
         'compra': compra,
-        'productos': productos,
-        'total_compra': total_compra
     }
-
+    
     return render(request, 'core/detalle.html', data)

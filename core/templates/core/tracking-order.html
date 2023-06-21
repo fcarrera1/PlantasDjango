@@ -33,16 +33,11 @@
     <section class="tracking_box_area section-margin--small">
         <div class="container">
             <div class="tracking_box_inner">
-                <p>Para hacer el seguimiento ponga el Nro. Orden en la casilla de abajo y luego presione el botón de
-                    "seguimiento"</p>
+                <p>A continuación se mostrará el estado de la compra N°{{ compra.id }}:</p>
                 <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
                     <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="order" name="order" placeholder="Order ID"
-                            onfocus="this.placeholder = ''" onblur="this.placeholder = 'Order ID'">
-                    </div>
-                    <div class="col-md-12 form-group">
                         <button type="button" class="button button-tracking" data-toggle="modal" data-target="#myModal">
-                            Seguimiento
+                            Ver seguimiento
                         </button>
 
                         <!-- The Modal -->
@@ -58,12 +53,35 @@
 
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <h5>El producto será entregado el día 17/04/2023</h5>
-                                        <br>
-                                        <p><i class="ti-check"></i> Pago recibido</p>
-                                        <p><i class="ti-check"></i> Producto recogido</p>
-                                        <p><i class="ti-minus"></i> Producto en camino</p>
-                                        <p><i class="ti-minus"></i> Producto entregado</p>
+                                        {% if compra.estado == 'validacion' %}
+                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <br>
+                                            <p><i class="ti-check"></i> Validando el pago</p>
+                                            <p><i class="ti-minus"></i> Preparando envío</p>
+                                            <p><i class="ti-minus"></i> Producto en camino</p>
+                                            <p><i class="ti-minus"></i> Producto entregado</p>
+                                        {% elif compra.estado == 'preparacion' %}
+                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <br>
+                                            <p><i class="ti-check"></i> Validando el pago</p>
+                                            <p><i class="ti-check"></i> Preparando envío</p>
+                                            <p><i class="ti-minus"></i> Producto en camino</p>
+                                            <p><i class="ti-minus"></i> Producto entregado</p>
+                                        {% elif compra.estado == 'reparto' %}
+                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <br>
+                                            <p><i class="ti-check"></i> Validando el pago</p>
+                                            <p><i class="ti-check"></i> Preparando envío</p>
+                                            <p><i class="ti-check"></i> Producto en camino</p>
+                                            <p><i class="ti-minus"></i> Producto entregado</p>
+                                        {% elif compra.estado == 'entregado' %}
+                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <br>
+                                            <p><i class="ti-check"></i> Validando el pago</p>
+                                            <p><i class="ti-check"></i> Preparando envío</p>
+                                            <p><i class="ti-check"></i> Producto en camino</p>
+                                            <p><i class="ti-check"></i> Producto entregado</p>
+                                        {% endif %}
                                     </div>
 
                                     <!-- Modal footer -->
