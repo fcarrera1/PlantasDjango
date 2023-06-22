@@ -21,3 +21,9 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+class EstadoFrom(ModelForm):
+
+    class Meta:
+        model = Compra
+        fields = ['estado']

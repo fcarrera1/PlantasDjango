@@ -16,7 +16,7 @@ class TipoProductoAdmin(admin.ModelAdmin):
     list_filter = ['descripcion']
 
 class CompraAdmin(admin.ModelAdmin):
-    list_display = ['id','usuario','fecha','estado' ,'created_at','updated_at']
+    list_display = ['id','usuario','fecha','estado' , 'total','created_at','updated_at']
     search_fields = ['usuario']
     list_per_page = 5
     list_filter = ['usuario']

@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
+
 
 {% block css %}
 
@@ -8,26 +8,71 @@
 
 {% block contenido %}
 
-<h1>Cambiar Estado de Compra</h1>
 
-  <p>Estado actual: {{ compra.estado }}</p>
-
-  <form method="post">
-    {% csrf_token %}
-    <label for="nuevo_estado">Nuevo Estado:</label>
-    <select id="nuevo_estado" name="nuevo_estado">
-      {% for value, label in compra.ESTADOS %}
-      <option value="{{ value }}">{{ label }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit">Guardar</button>
-  </form>
-
+<section class="" style="background-color:#dbe3da;">
+    <div class="container">
+      <div class="row no-gutters align-items-center pt-60px">
+        <div class="col-5 d-none d-sm-block">
+          <div class="hero-banner__img" >
+            <img class="img-fluid " src="{% static 'core/img/fotos/banner.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+          <div class="hero-banner__content">
+            <h1 style="font-family: 'Besttia Brush', sans-serif;">Flower Pots</h1>
+            <p>¡En nuestra tienda encontraras todos los productos de jardinería que necesites!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<br><br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1>Cambiar Estado de Compra</h1>
+        <br>
+      <h3>Estado actual: {{ compra.estado }}</h3>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <h4><label for="nuevo_estado">Nuevo Estado:</label></h4>
+          <select id="nuevo_estado" name="nuevo_estado" class="form-control">
+            {% for value, label in compra.ESTADOS %}
+            <option value="{{ value }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <br><br>
+        <button type="submit" class="btn btn-success btn-lg" >Guardar</button>
+      </form>
+    </div>
+  </div>
+</div>
+<br><br><br>
 {% endblock %}
 
 
 
 
 {% block js %}
-
+{% if messages %} 
+    {% for aux in messages %} 
+    <script>
+    Swal.fire({
+    title: 'Confirmación',
+    text: '{{ aux }}',
+    icon: 'success',
+    showCancelButton: false,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Confirmar'
+    })
+    </script>
+    {% endfor %} 
+    {% endif %}
 {% endblock %}
+
+
+
+

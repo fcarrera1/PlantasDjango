@@ -53,28 +53,28 @@
 
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        {% if compra.estado == 'validacion' %}
+                                        {% if compra.estado == 'Validación' %}
                                             <h5>El producto será entregado el día 17/04/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-minus"></i> Preparando envío</p>
                                             <p><i class="ti-minus"></i> Producto en camino</p>
                                             <p><i class="ti-minus"></i> Producto entregado</p>
-                                        {% elif compra.estado == 'preparacion' %}
+                                        {% elif compra.estado == 'Preparación' %}
                                             <h5>El producto será entregado el día 17/04/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-check"></i> Preparando envío</p>
                                             <p><i class="ti-minus"></i> Producto en camino</p>
                                             <p><i class="ti-minus"></i> Producto entregado</p>
-                                        {% elif compra.estado == 'reparto' %}
+                                        {% elif compra.estado == 'Reparto' %}
                                             <h5>El producto será entregado el día 17/04/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-check"></i> Preparando envío</p>
                                             <p><i class="ti-check"></i> Producto en camino</p>
                                             <p><i class="ti-minus"></i> Producto entregado</p>
-                                        {% elif compra.estado == 'entregado' %}
+                                        {% elif compra.estado == 'Entregado' %}
                                             <h5>El producto será entregado el día 17/04/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
