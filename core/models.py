@@ -69,9 +69,12 @@ class Compra(models.Model):
 
 class CompraItem(models.Model):
     compra = models.ForeignKey(Compra, on_delete=models.CASCADE)
-    carro_item = models.ForeignKey(CarroItem, on_delete=models.SET_NULL, null=True, blank=True)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=True, blank=True)
+    cantidad = models.PositiveIntegerField(default=1)
+    subtotal = models.PositiveIntegerField()
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def subtotal(self):
-        return self.carro_item.producto.precio * self.carro_item.cantidad
+    def __str__(self):
+        return f"CompraItem #{self.pk} - Compra #{self.compra.pk}"

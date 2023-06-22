@@ -334,13 +334,16 @@ def cartdelete(request,id):
 @grupo_requerido('Cliente')
 def add_compra(request):
     carro_compras = CarroCompras.objects.get(usuario=request.user)
-    items = carro_compras.items.all()
-    total_carro = carro_compras.items.aggregate(total=Sum('producto__precio'))['total']
+    total_carro = carro_compras.total()
 
-    compra = Compra.objects.create(usuario=request.user, total=total_carro, estado='validacion')
+    compra = Compra.objects.create(usuario=request.user, total=total_carro, estado='Validación')
 
-    for item in items:
-        CompraItem.objects.create(compra=compra, carro_item=item)
+    for item in carro_compras.items.all():
+        producto = item.producto
+        cantidad = item.cantidad
+        subtotal = item.subtotal()
+
+        compra_item = CompraItem.objects.create(compra=compra, producto=producto, cantidad=cantidad, subtotal=subtotal)
         item.delete()
 
     carro_compras.items.clear()
@@ -350,19 +353,13 @@ def add_compra(request):
 
 @grupo_requerido('Cliente')
 def mis_compras(request):
-    compras = Compra.objects.filter(usuario=request.user)
+    compra = Compra.objects.filter(usuario=request.user)
+    items = compra.compraitem_set.all()
 
-    compras_con_totales = []
-    for compra in compras:
-        carro_compras = CarroCompras.objects.get(usuario=compra.usuario)
-        cantidad_productos = sum(item.cantidad for item in carro_compras.items.all())
-
-        total = compra.compraitem_set.annotate(subtotal=F('carro_item__producto__precio') * F('carro_item__cantidad')).aggregate(total=Sum('subtotal'))['total'] * cantidad_productos
-        compras_con_totales.append({'compra': compra, 'total': total})
 
     data = {
-        'compras': compras_con_totales,
-        'total_general': sum(item['total'] for item in compras_con_totales)
+        'compras': compras,
+        'items': items,
     }
 
     return render(request, 'core/miscompras.html', data)
@@ -384,7 +381,7 @@ def detalle(request,id):
 
 def registro(request):
     data = {
-        'form': CustomUserCreationForm
+        'form': CustomUserCreationForm()
     }
 
     if request.method == 'POST':
@@ -392,10 +389,9 @@ def registro(request):
         if formulario.is_valid():
             user = formulario.save()
             user.groups.add(Group.objects.get(name='Cliente'))
-            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
-            login(request, user)
+
             messages.success(request, "Te has registrado correctamente")
-            return redirect(to="index")
+
         data["form"] = formulario
     return render(request, 'registration/registro.html', data)
 
@@ -411,18 +407,18 @@ def compras(request):
     return render(request, 'core/compras.html', data)
 
 @grupo_requerido('Vendedor')
-
 def estadocompra(request, id):
-    compra = get_object_or_404(Compra, id=id)
+    compra = Compra.objects.get(id=id)
 
     if request.method == 'POST':
         nuevo_estado = request.POST.get('nuevo_estado')
         compra.estado = nuevo_estado
         compra.save()
-        
-        return redirect(to = 'compras')
+        messages.info(request, "Estado modificado correctamente")
     
+
     data = {
         'compra' : compra,
     }
+
     return render(request, 'core/estadocompra.html', data)
