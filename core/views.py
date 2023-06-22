@@ -1,5 +1,5 @@
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -39,6 +39,14 @@ class TipoProductoViewset(viewsets.ModelViewSet):
     queryset = TipoProducto.objects.all()
     serializer_class = TipoProductoSerializers
 
+class UserViewset(viewsets.ModelViewSet):
+     queryset = User.objects.all()
+     serializer_class = UserSerializers
+
+class CompraViewset(viewsets.ModelViewSet):
+     queryset = Compra.objects.all()
+     serializer_class = CompraSerializers
+
 # Create your views here.
 def blog(request):
 		return render(request, 'core/blog.html')
@@ -64,26 +72,19 @@ def category(request):
     }
     return render(request, 'core/category.html', data)
 
-#@login_required
+@grupo_requerido('Cliente')
 def shopapi(request):
     respuesta = requests.get('http://127.0.0.1:8000/api/productos/')
-    respuesta2 = requests.get('https://mindicador.cl/api')
-    respuesta3 = requests.get('https://rickandmortyapi.com/api/character')
     
     # Transformacion del json, todos los datos de respuesta se almacenan en data
     productos = respuesta.json()
-    monedas = respuesta2.json()
-    aux = respuesta3.json()
-    personajes = aux['results']
 
 
     data = {
         'listado': productos,
-        'moneda' : monedas,
-        'personajes' : personajes,
     }
 
-    return render(request, 'core/category.html', data)
+    return render(request, 'core/shopapi.html', data)
 
 
 @grupo_requerido('Cliente')
@@ -364,7 +365,7 @@ def mis_compras(request):
         'total_general': sum(item['total'] for item in compras_con_totales)
     }
 
-    return render(request, 'core/mis_compras.html', data)
+    return render(request, 'core/miscompras.html', data)
 
 
 
@@ -399,3 +400,29 @@ def registro(request):
     return render(request, 'registration/registro.html', data)
 
 
+@grupo_requerido('Vendedor')
+def compras(request):
+    compras = Compra.objects.all()  
+
+    data = {
+        'compras': compras,
+    }
+
+    return render(request, 'core/compras.html', data)
+
+@grupo_requerido('Vendedor')
+
+def estadocompra(request, id):
+    compra = get_object_or_404(Compra, id=id)
+
+    if request.method == 'POST':
+        nuevo_estado = request.POST.get('nuevo_estado')
+        compra.estado = nuevo_estado
+        compra.save()
+        
+        return redirect(to = 'compras')
+    
+    data = {
+        'compra' : compra,
+    }
+    return render(request, 'core/estadocompra.html', data)

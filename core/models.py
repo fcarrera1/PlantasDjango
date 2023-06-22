@@ -50,10 +50,10 @@ class CarroCompras(models.Model):
 
 class Compra(models.Model):
     ESTADOS = (
-        ('validacion', 'Validación'),
-        ('preparacion', 'Preparación'),
-        ('reparto', 'Reparto'),
-        ('entregado', 'Entregado'),
+        ('Validación', 'Validación'),
+        ('Preparación', 'Preparación'),
+        ('Reparto', 'Reparto'),
+        ('Entregado', 'Entregado'),
     )
 
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -98,7 +98,6 @@
           </div>
           <!-- End Filter Bar -->
           <!-- Start Best Seller -->
-          <h3>{{ moneda.uf.valor }}</h3>
           <section class="section-margin calc-60px">
             <div class="container">
               
@@ -125,7 +124,7 @@
                             </ul>
                           </div>
                           <div class="card-body">
-                            <p>{{ aux.tipo }}</p>
+                            <p>{{ aux.tipo.descripcion }}</p>
                             <h4 class="card-product__title"><a href="{% url 'singleproduct' aux.id %}">{{ aux.nombre }}</a>
                             </h4>
                             <p class="card-product__price">${{ aux.precio | intcomma}}</p>
@@ -220,11 +219,7 @@
                 {% endif %}
               </div>
               {% include 'core/paginator.html' %}
-              
-              {% for aux in personajes %}
-                <p>Nombre: {{ aux.name }} - Raza: {{ aux.species }} </p>
-                <img src="{{ aux.image }}" alt="">
-              {% endfor %}
+  
             </div>
           </section>
           <!-- End Best Seller -->

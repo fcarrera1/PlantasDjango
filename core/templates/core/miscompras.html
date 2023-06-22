@@ -7,7 +7,22 @@
 {% block css %}
 
 {% endblock %}
-
+<section class="" style="background-color:#dbe3da;">
+    <div class="container">
+      <div class="row no-gutters align-items-center pt-60px">
+        <div class="col-5 d-none d-sm-block">
+          <div class="hero-banner__img" >
+            <img class="img-fluid " src="{% static 'core/img/fotos/banner.jpg' %}" alt="">
+          </div>
+        </div>
+        <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+          <div class="hero-banner__content">
+            <h1 style="font-family: 'Besttia Brush', sans-serif;">Mis compras</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 <section class="cart_area">
     <div class="container">
@@ -37,11 +52,11 @@
                                 </td>
 
                                 <td>
-                                    <h5>$ {{ totales.forloop.counter0|default_if_none:"N/A" }}</h5>
+                                    <h5>$ {{ compra.total | intcomma}}</h5>
                                 </td>
                                 <td>
                                     <h5>
-                                        En proceso
+                                        {{ compra.estado }}
                                     </h5>
                                 </td>
                                 <td>

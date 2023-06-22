@@ -7,6 +7,9 @@ from . import views
 router = routers.DefaultRouter()
 router.register('productos', ProductoViewset)
 router.register('tipo productos', TipoProductoViewset)
+router.register('usuarios', UserViewset)
+router.register('compras', CompraViewset)
+
 
 urlpatterns = [
     #API
@@ -34,5 +37,7 @@ urlpatterns = [
     path('add_compra/', add_compra, name="add_compra"),
     path('miscompras/', miscompras, name = "miscompras"),
     path('detalle/<id>/', detalle, name="detalle"),
-    path('registro/', registro, name="registro")
+    path('registro/', registro, name="registro"),
+    path('compras/', compras, name="compras"),
+    path('estadocompra/<id>', estadocompra, name="estadocompra"),
 ]
