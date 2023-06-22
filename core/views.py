@@ -369,11 +369,12 @@ def mis_compras(request):
 @grupo_requerido('Cliente')
 def detalle(request,id):
     compra = Compra.objects.get(id=id)
-
+    items = compra.compraitem_set.all()
 
 
     data = {
         'compra': compra,
+        'items': items,
     }
     
     return render(request, 'core/detalle.html', data)

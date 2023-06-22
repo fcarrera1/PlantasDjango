@@ -27,22 +27,22 @@
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="" alt="" height="80px" width="60px">
+                                        <img src="{{ x.producto.imagen.url }}" alt="" height="80px" width="60px">
                                     </div>
                                     <div class="media-body">
-                                        <p>a</p>
+                                        <p>{{ x.producto.nombre }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h5>$ </h5>
+                                <h5>${{ x.producto.precio | intcomma}}</h5>
                             </td>
                             <td>
-                                <h5></h5>
+                                <h5>{{ x.cantidad }}</h5>
                             </td>
                             <td>
                                 <h5>
-                                    $
+                                    ${{ x.subtotal | intcomma}}
                                 </h5>
                             </td>
                         </tr>

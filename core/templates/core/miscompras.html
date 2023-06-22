@@ -39,12 +39,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for compra in compras %}
+                        {% for x in compras %}
                             <tr>
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
-                                            <h5>{{ compra.id }}</h5>
+                                            <h5>{{ x.id }}</h5>
                                         </div>
                                         <div class="media-body">  
                                         </div>
@@ -52,18 +52,18 @@
                                 </td>
 
                                 <td>
-                                    <h5>$ {{ compra.total | intcomma}}</h5>
+                                    <h5>$ {{ x.total | intcomma}}</h5>
                                 </td>
                                 <td>
                                     <h5>
-                                        {{ compra.estado }}
+                                        {{ x.estado }}
                                     </h5>
                                 </td>
                                 <td>
-                                    <a href="{% url 'detalle' compra.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
+                                    <a href="{% url 'detalle' x.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
                                 </td>
                                 <td>
-                                    <a href="{% url 'trackingorder' compra.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
+                                    <a href="{% url 'trackingorder' x.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
                                 </td>
                                 <td>
                                 </td>
