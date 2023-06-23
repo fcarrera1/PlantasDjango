@@ -61,11 +61,18 @@
                         for="men">Flores<span></span> <!-- Cantidad --> </label></li>
                     <li class="filter-list"><input class="pixel-radio" type="radio" id="men" name="brand"><label
                         for="men">Arbustos<span></span> <!-- Cantidad --> </label></li>
+                    <hr>
 
-                    {% if user.is_superuser %}
+                    <li class="filter-list"><a href="{% url 'shopapi' %}" style="text-decoration: none;"><i
+                      class="ti-plus"></i> <label style="color: black;"> Productos Api</label></a></li>
+
+                    {% if user.is_superuser or user.id == 5 %}
                     <hr>
                     <li class="filter-list"><a href="{% url 'add' %}" style="text-decoration: none;"><i
-                          class="ti-plus"></i> <label style="color: black;"> Agregar Productos</label></a></li>
+                          class="ti-plus"></i> <label style="color: black;"> Agregar productos</label></a></li>
+                          <hr>
+                    <li class="filter-list"><a href="{% url 'compras' %}" style="text-decoration: none;"><i
+                          class="ti-plus"></i> <label style="color: black;"> Administrar compras</label></a></li>
                     {% endif %}
                   </ul>
 
@@ -97,7 +104,7 @@
 
               <div class="row">
                 {% if user.is_authenticated%}
-                  {% if user.is_superuser %}
+                  {% if user.is_superuser or user.id == 5 %}
                     {% for aux in listado %}
                       <div class="col-md-7 col-lg-5 col-xl-4">
                         <div class="card text-center card-product">
@@ -147,10 +154,10 @@
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                               </li>
                               {% if aux.stock > 0 %}
-                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
                               {% else %}
                               {% endif %}
-                              </a>
+                              
                             </ul>
                           </div>
                           <div class="card-body">
@@ -182,10 +189,10 @@
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                               </li>
                               {% if aux.stock > 0 %}
-                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
                               {% else %}
                               {% endif %}
-                              </a>
+                              
                             </ul>
                           </div>
                           <div class="card-body">
@@ -217,7 +224,7 @@
                           <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                           </li>
                           {% if aux.stock > 0 %}
-                          <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                          <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
                           {% else %}
                           {% endif %}
                         </ul>

@@ -100,11 +100,10 @@
           <!-- Start Best Seller -->
           <section class="section-margin calc-60px">
             <div class="container">
-              
+
               <div class="row">
                 {% if user.is_authenticated%}
                   {% if user.is_superuser %}
-
                     {% for aux in listado %}
                       <div class="col-md-7 col-lg-5 col-xl-4">
                         <div class="card text-center card-product">
@@ -112,13 +111,16 @@
                             {% if aux.imagen %}
                             <img class="card-img" src="{{ aux.imagen }}">
                             {% else %}
-                            <img class="card-img" src="{{ aux.imagen }}">
+                            <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                             {% endif %}
                             <ul class="card-product__imgOverlay">
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                               </li>
-                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
-                              </a>
+                              {% if aux.stock > 0 %}
+                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
+                              {% else %}
+                              {% endif %}
+                              
                               <li><button onclick="deleteProducto({{ aux.id }})"><i class="ti-trash"></i></button></li>
                               <li><a href="{% url 'update' aux.id %}"><button><i class="ti-pencil"></i></button></li></a>
                             </ul>
@@ -128,13 +130,16 @@
                             <h4 class="card-product__title"><a href="{% url 'singleproduct' aux.id %}">{{ aux.nombre }}</a>
                             </h4>
                             <p class="card-product__price">${{ aux.precio | intcomma}}</p>
+                            {% if aux.stock > 0 %}
                             <p class="card-product__price">Stock: {{ aux.stock }}</p>
+                            {% else %}
+                            <p class="card-product__price">Producto no disponible</p>
+                            {% endif %}
                           </div>
                         </div>
                       </div>
                     {% endfor %}
-
-                  {% elif user.id == 4 %}
+                  {% elif user.id == 3 %}
                     {% for aux in listado %}
                       <div class="col-md-7 col-lg-5 col-xl-4">
                         <div class="card text-center card-product">
@@ -142,49 +147,63 @@
                             {% if aux.imagen %}
                             <img class="card-img" src="{{ aux.imagen }}">
                             {% else %}
-                            <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
+                            <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                             {% endif %}
                             <ul class="card-product__imgOverlay">
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                               </li>
+                              {% if aux.stock > 0 %}
                               <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                              {% else %}
+                              {% endif %}
                               </a>
                             </ul>
                           </div>
                           <div class="card-body">
-                            <p>{{ aux.tipo }}</p>
-                            <h4 class="card-product__title"><a href="{% url 'singleproduct' aux.id %}">{{ aux.nombre }}</a>
-                            </h4>
-                            <p class="card-product__price">${{ aux.precio | intcomma}}</p>
-                            <p class="card-product__price">Stock: {{ aux.stock }}</p>
-                          </div>
-                        </div>
-                      </div>
-                    {% endfor %}
-                  {% elif user.id == 5 %}
-                    {% for aux in listado %}
-                      <div class="col-md-7 col-lg-5 col-xl-4">
-                        <div class="card text-center card-product">
-                          <div class="card-product__img">
-                            {% if aux.imagen %}
-                            <img class="card-img" src="{{ aux.imagen }}">
-                            {% else %}
-                            <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
-                            {% endif %}
-                            <ul class="card-product__imgOverlay">
-                              <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
-                              </li>
-                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
-                              </a>
-                            </ul>
-                          </div>
-                          <div class="card-body">
-                            <p>{{ aux.tipo }}</p>
+                            <p>{{ aux.tipo.descripcion }}</p>
                             <h4 class="card-product__title"><a href="{% url 'singleproduct' aux.id %}">{{ aux.nombre }}</a>
                             </h4>
                             <p class="card-product__price" style="text-decoration: line-through;">${{ aux.precio | intcomma}}</p>
-                            <p class="card-product__price" style="">${{ aux.precio_descuento | intcomma}}</p>
+                            <p class="card-product__price" >${{ aux.precio_descuento | intcomma}}</p>
+                            {% if aux.stock > 0 %}
                             <p class="card-product__price">Stock: {{ aux.stock }}</p>
+                            {% else %}
+                            <p class="card-product__price">Producto no disponible</p>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    {% else %}
+                    {% for aux in listado %}
+                      <div class="col-md-7 col-lg-5 col-xl-4">
+                        <div class="card text-center card-product">
+                          <div class="card-product__img">
+                            {% if aux.imagen %}
+                            <img class="card-img" src="{{ aux.imagen }}">
+                            {% else %}
+                            <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
+                            {% endif %}
+                            <ul class="card-product__imgOverlay">
+                              <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
+                              </li>
+                              {% if aux.stock > 0 %}
+                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                              {% else %}
+                              {% endif %}
+                              </a>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <p>{{ aux.tipo.descripcion }}</p>
+                            <h4 class="card-product__title"><a href="{% url 'singleproduct' aux.id %}">{{ aux.nombre }}</a>
+                            </h4>
+                            <p class="card-product__price">${{ aux.precio | intcomma}}</p>
+                            {% if aux.stock > 0 %}
+                            <p class="card-product__price">Stock: {{ aux.stock }}</p>
+                            {% else %}
+                            <p class="card-product__price">Producto no disponible</p>
+                            {% endif %}
                           </div>
                         </div>
                       </div>
@@ -196,22 +215,29 @@
                     <div class="card text-center card-product">
                       <div class="card-product__img">
                         {% if aux.imagen %}
-                        <img class="card-img" src="{{ aux.imagen.url }}">
+                        <img class="card-img" src="{{ aux.imagen }}">
                         {% else %}
-                        <img class="card-img" src="{% static 'core/img/Image_not_available.png' %}">
+                        <img class="card-img" src="{% static 'core/img/fotos/notfound.png' %}">
                         {% endif %}
                         <ul class="card-product__imgOverlay">
                           <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                           </li>
-                          <li><a href="{% url 'login' %}"><button><i class="ti-shopping-cart"></i></button></a></li>
+                          {% if aux.stock > 0 %}
+                          <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                          {% else %}
+                          {% endif %}
                         </ul>
                       </div>
                       <div class="card-body">
-                        <p>{{ aux.tipo }}</p>
+                        <p>{{ aux.tipo.descripcion }}</p>
                         <h4 class="card-product__title"><a href="{% url 'singleproduct' aux.id %}">{{ aux.nombre }}</a>
                         </h4>
                         <p class="card-product__price">${{ aux.precio | intcomma}}</p>
+                        {% if aux.stock > 0 %}
                         <p class="card-product__price">Stock: {{ aux.stock }}</p>
+                        {% else %}
+                        <p class="card-product__price">Producto no disponible</p>
+                        {% endif %}
                       </div>
                     </div>
                   </div>
@@ -219,7 +245,7 @@
                 {% endif %}
               </div>
               {% include 'core/paginator.html' %}
-  
+
             </div>
           </section>
           <!-- End Best Seller -->

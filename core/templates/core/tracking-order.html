@@ -33,7 +33,8 @@
     <section class="tracking_box_area section-margin--small">
         <div class="container">
             <div class="tracking_box_inner">
-                <p>A continuación se mostrará el estado de la compra N°{{ compra.id }}:</p>
+                <h5>A continuación se mostrará el estado de la compra N°{{ compra.id }}:</h5>
+                <br>
                 <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
                     <div class="col-md-12 form-group">
                         <button type="button" class="button button-tracking" data-toggle="modal" data-target="#myModal">
@@ -54,28 +55,28 @@
                                     <!-- Modal body -->
                                     <div class="modal-body">
                                         {% if compra.estado == 'Validación' %}
-                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <h5>El producto será entregado el día 30/06/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-minus"></i> Preparando envío</p>
                                             <p><i class="ti-minus"></i> Producto en camino</p>
                                             <p><i class="ti-minus"></i> Producto entregado</p>
                                         {% elif compra.estado == 'Preparación' %}
-                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <h5>El producto será entregado el día 30/06/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-check"></i> Preparando envío</p>
                                             <p><i class="ti-minus"></i> Producto en camino</p>
                                             <p><i class="ti-minus"></i> Producto entregado</p>
                                         {% elif compra.estado == 'Reparto' %}
-                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <h5>El producto será entregado el día 30/06/2023</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-check"></i> Preparando envío</p>
                                             <p><i class="ti-check"></i> Producto en camino</p>
                                             <p><i class="ti-minus"></i> Producto entregado</p>
                                         {% elif compra.estado == 'Entregado' %}
-                                            <h5>El producto será entregado el día 17/04/2023</h5>
+                                            <h5>El producto ya fue entregado</h5>
                                             <br>
                                             <p><i class="ti-check"></i> Validando el pago</p>
                                             <p><i class="ti-check"></i> Preparando envío</p>

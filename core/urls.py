@@ -25,7 +25,6 @@ urlpatterns = [
     path('singleproduct/<id>/', singleproduct, name="singleproduct"),
     path('trackingorder/<id>', trackingorder, name="trackingorder"),
     path('perfil/', perfil, name="perfil"),
-    path('wishlist/', wishlist, name= "wishlist"),
     path('add/', add, name="add"),
     path('update/<id>/', update, name="update"),
     path('delete/<id>/', delete, name="delete"),
@@ -40,4 +39,5 @@ urlpatterns = [
     path('registro/', registro, name="registro"),
     path('compras/', compras, name="compras"),
     path('estadocompra/<id>', estadocompra, name="estadocompra"),
+    path('confirmation/<id>', confirmation, name="confirmation")
 ]

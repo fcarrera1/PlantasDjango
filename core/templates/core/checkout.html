@@ -73,9 +73,10 @@
                   <li><a href="#">
                       <h4>Productos <span>Total</span></h4>
                     </a></li>
+
                   {% for x in items %}
                   
-                  <li><a href="#">{{ x.producto.nombre }} x{{ x.cantidad }} <span class="middle"></span> <span class="last">$ {{x.precio_rebajado | intcomma}}</span></a>
+                  <li><a href="#">{{ x.producto.nombre }} x{{ x.cantidad }} <span class="middle"></span> <span class="last">$ {{x.total_rebaja_prod | intcomma}}</span></a>
                   </li>
                   {% endfor %}
                 </ul>
@@ -89,8 +90,8 @@
                 <div class="payment_item active">
                   <div class="radion_btn">
                     <input type="radio" id="f-option6" name="selector">
-                    <label for="f-option6"> Webpay </label>
-                    <img src="{% static 'core/img/fotos/webpay.png' %}" alt="">
+                    <label for="f-option6"> Paypal </label>
+                    <img src="{% static 'core/img/fotos/paypal.png' %}" alt="">
                     <div class="check"></div>
                   </div>
                   <p>Pagar vía Webpay: nuestro método de pago seguro y confiable, te permite realizar transacciones rápidas y seguras en nuestro sitio web. Aceptamos todas las principales tarjetas de crédito y débito.</p>
@@ -191,8 +192,7 @@
                   <a href="#">terminos de uso y condiciones*</a>
                 </div>
                 <div class="text-center">
-                    <a href="{% url 'add_compra' %}"> pagar</a>
-                  <!--<p><div id="btnPaypal"></div></p>-->
+                  <p><div id="btnPaypal"></div></p>
                 </div>
               </div>
             </div>

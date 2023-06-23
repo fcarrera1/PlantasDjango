@@ -7,147 +7,249 @@
 
 {% endblock %}
 
-  <!--================ Start Header Menu Area =================-->
+<!--================ Start Header Menu Area =================-->
 
-	<!--================ End Header Menu Area =================-->
-  
-	<!-- ================ start banner area ================= -->	
+<!--================ End Header Menu Area =================-->
 
-	<!-- ================ end banner area ================= -->
-  
-  <!--================Order Details Area =================-->
-  <section class="order_details section-margin--small">
-    <div class="container">
-      <p class="text-center billing-alert">Gracias. Tu pedido ya fue recibido.</p>
-      <div class="row mb-5">
-        <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-          <div class="confirmation-card">
-            <h3 class="billing-title">Información pedido</h3>
-            
-            <table class="order-rable">
-              <tr>
-                <td>N° Pedido</td>
-                <td>: {{ compra_id }}</td>
-              </tr>
-              <tr>
-                <td>Fecha </td>
-                <td>: 23/05/2023</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td>: $ {{ carro_compras.total }}</td>
-              </tr>
-              
-              <tr>
-                <td>Payment method</td>
-                <td>: WebPay </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-          <div class="confirmation-card">
-            <h3 class="billing-title">Información de envío </h3>
-            <table class="order-rable">
-              <tr>
-                <td>Street</td>
-                <td>: Dirección usuario*</td>
-              </tr>
-              <tr>
-                <td>City</td>
-                <td>: Dirección usuario*</td>
-              </tr>
-              <tr>
-                <td>Country</td>
-                <td>: Dirección usuario*</td>
-              </tr>
-              <tr>
-                <td>Postcode</td>
-                <td>: Dirección usuario*</td>
-              </tr>
-              
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="order_details_table">
-        <h2>Detalles del pedido</h2>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              {% for x in compra_items %}
-              <tr>
-                  <td>
-                    <p>{{ x.carro_item.nombre }}</p>
-                  </td>
-                  <td>
-                    <h5>x {{ x.producto.cantidad }}</h5>
-                  </td>
-                  <td>
-                    <p>$ </p>
-                  </td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Subtotal</h4>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td>
-                  <p>$ </p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Envío</h4>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td>
-                  <p>$ 7,560 </p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Total</h4>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td>
-                  <h4>$ </h4>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
+<!-- ================ start banner area ================= -->
+
+<!-- ================ end banner area ================= -->
+
+<!--================Order Details Area =================-->
+<section class="order_details section-margin--small">
+  <div class="container">
+    {% if user.id == 3 %}
+    <h3 class="text-center billing-alert">Gracias. Tu pedido ya fue recibido.</h3>
+    <div class="row mb-5">
+      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+        <div class="confirmation-card">
+          <h3 class="billing-title">Información pedido</h3>
+
+          <table class="order-rable">
+            <tr>
+              <td>N° Pedido</td>
+              <td>: {{ compra.id }}</td>
+            </tr>
+
+            <tr>
+              <td>Total </td>
+              <td>: $ {{ total_compra | intcomma }}</td>
+            </tr>
+
+            <tr>
+              <td>Payment method</td>
+              <td>: Paypal </td>
+            </tr>
           </table>
         </div>
       </div>
-      <a href="" class="btn btn-primary">Acceder a mis Compras</a>
+      <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+        <div class="confirmation-card">
+          <h3 class="billing-title">Información de envío </h3>
+          <table class="order-rable">
+            <tr>
+              <td>Dirección </td>
+              <td>: {{ last_name }}</td>
+            </tr>
+            <tr>
+              <td>Ciudad</td>
+              <td>: Santiago </td>
+            </tr>
+            <tr>
+              <td>Comuna</td>
+              <td>: Puente Alto</td>
+            </tr>
+
+          </table>
+        </div>
+      </div>
     </div>
-    
-  </section>
-  <!--================End Order Details Area =================-->
+    <div class="order_details_table">
+      <h2>Detalles del pedido</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+
+              <th scope="col">Producto</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Total</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in items %}
+            <tr>
+              <td>
+                <p>{{ x.producto.nombre }}</p>
+              </td>
+              <td>
+                <h5>x {{ x.cantidad }}</h5>
+              </td>
+              <td>
+                <p>$ {{ x.total_rebaja_prod | intcomma}}</p>
+              </td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <td>
+                <h4>Subtotal</h4>
+              </td>
+              <td>
+                <h5></h5>
+              </td>
+              <td>
+                <p>$ {{ subtotal | intcomma }}</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h4>Envío</h4>
+              </td>
+              <td>
+                <h5></h5>
+              </td>
+              <td>
+                <p>$ 2,000 </p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <h4>Total</h4>
+              </td>
+              <td>
+                <h5></h5>
+              </td>
+              <td>
+                <h4>$ {{ total_compra | intcomma }}</h4>
+              </td>
+            </tr>
+            {% else %}
+              <h3 class="text-center billing-alert">Gracias. Tu pedido ya fue recibido.</h3>
+              <div class="row mb-5">
+                <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+                  <div class="confirmation-card">
+                    <h3 class="billing-title">Información pedido</h3>
+
+                    <table class="order-rable">
+                      <tr>
+                        <td>N° Pedido</td>
+                        <td>: {{ compra.id }}</td>
+                      </tr>
+
+                      <tr>
+                        <td>Total </td>
+                        <td>: $ {{ total_compra_nor | intcomma }}</td>
+                      </tr>
+
+                      <tr>
+                        <td>Payment method</td>
+                        <td>: Paypal </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
+                  <div class="confirmation-card">
+                    <h3 class="billing-title">Información de envío </h3>
+                    <table class="order-rable">
+                      <tr>
+                        <td>Dirección </td>
+                        <td>: {{ last_name }}</td>
+                      </tr>
+                      <tr>
+                        <td>Ciudad</td>
+                        <td>: Santiago </td>
+                      </tr>
+                      <tr>
+                        <td>Comuna</td>
+                        <td>: Puente Alto</td>
+                      </tr>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="order_details_table">
+                <h2>Detalles del pedido</h2>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Total</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for x in items %}
+                      <tr>
+                        <td>
+                          <p>{{ x.producto.nombre }}</p>
+                        </td>
+                        <td>
+                          <h5>x {{ x.cantidad }}</h5>
+                        </td>
+                        <td>
+                          <p>$ {{ x.total_producto | intcomma}}</p>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                      <tr>
+                        <td>
+                          <h4>Subtotal</h4>
+                        </td>
+                        <td>
+                          <h5></h5>
+                        </td>
+                        <td>
+                          <p>$ {{ compra.total | intcomma }}</p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h4>Envío</h4>
+                        </td>
+                        <td>
+                          <h5></h5>
+                        </td>
+                        <td>
+                          <p>$ 2,000 </p>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h4>Total</h4>
+                        </td>
+                        <td>
+                          <h5></h5>
+                        </td>
+                        <td>
+                          <h4>$ {{ total_compra_nor | intcomma }}</h4>
+                        </td>
+                      </tr>
+                    {% endif %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <a href="{% url 'miscompras' %}" class="btn btn-primary">Acceder a mis Compras</a>
+      </div>
+
+</section>
+<!--================End Order Details Area =================-->
 
 
 
-  <!--================ Start footer Area  =================-->	
-	{% endblock %}
-	<!--================ End footer Area  =================-->
+<!--================ Start footer Area  =================-->
+{% endblock %}
+<!--================ End footer Area  =================-->
 
 
 
-  {% block js %}
+{% block js %}
 
-  {% endblock %}
+{% endblock %}
