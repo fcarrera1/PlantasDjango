@@ -72,13 +72,12 @@ def category(request):
     }
     return render(request, 'core/category.html', data)
 
-@grupo_requerido('Cliente')
 def shopapi(request):
     respuesta = requests.get('http://127.0.0.1:8000/api/productos/')
     
     # Transformacion del json, todos los datos de respuesta se almacenan en data
     productos = respuesta.json()
-
+    
 
     data = {
         'listado': productos,
@@ -117,8 +116,8 @@ def checkout(request):
     total_final_clp = (total_productos + valor_fijo)
     total_final_usd = (total_productos + valor_fijo)/valor_usd
 
-    total_final_clp_reb = (precio_rebajado+ valor_fijo)
-    total_final_usd_reb = (precio_rebajado + valor_fijo)/valor_usd
+    total_final_clp_reb = (total_rebaja + valor_fijo)
+    total_final_usd_reb = (total_rebaja + valor_fijo)/valor_usd
     data = {
         'items': items,
         'total': total,
@@ -145,10 +144,20 @@ def checkout(request):
 def miscompras(request):
     compras = Compra.objects.filter(usuario=request.user)
 
+    for x in compras:
+        total_con_descuento = round(x.total * 0.95) + 2000
+        x.total_con_descuento = total_con_descuento
+
+        total_compra= x.total + 2000
+        x.total_compra = total_compra
+
+
+
     data = {
-        'compras': compras
+        'compras': compras,
     }
-    return render(request,'core/miscompras.html', data)
+
+    return render(request, 'core/miscompras.html', data)
 
 def contact(request):
 		return render(request, 'core/contact.html')
@@ -168,9 +177,12 @@ def index(request):
 
 def singleproduct(request, id):
     producto = Producto.objects.get(id=id) #buscamos un producto por su id (primer campo base de datos y el otro es nuestro)
+    
+    precio_descuento = round(producto.precio * 0.95)
     data = {
         #'form' : ProductoForm(instance=producto) #Carga la info en el formulario
-        'producto' : producto
+        'producto' : producto,
+        'precio_descuento': precio_descuento,
     }
 
     return render(request,'core/single-product.html',data)
@@ -193,9 +205,6 @@ def perfil(request):
     last_name = request.user.last_name
     return render(request, 'core/perfil.html', {'username': username, 'email': email, 'first_name': first_name, 'last_name': last_name})
 
-@grupo_requerido('Cliente')
-def wishlist(request):
-        return render(request, 'core/wishlist.html')
 
 ## Crud
 @grupo_requerido('Vendedor')
@@ -237,7 +246,7 @@ def delete(request,id):
     producto = Producto.objects.get(id=id)
     producto.delete()
 
-    return redirect(to="index")
+    return redirect(to="category")
 
 
 @grupo_requerido('Cliente')
@@ -348,32 +357,37 @@ def add_compra(request):
 
     carro_compras.items.clear()
 
-    return redirect('miscompras')
+    return redirect('confirmation', id=compra.id)
 
-
-@grupo_requerido('Cliente')
-def mis_compras(request):
-    compra = Compra.objects.filter(usuario=request.user)
-    items = compra.compraitem_set.all()
-
-
-    data = {
-        'compras': compras,
-        'items': items,
-    }
-
-    return render(request, 'core/miscompras.html', data)
 
 
 
 @grupo_requerido('Cliente')
 def detalle(request,id):
     compra = Compra.objects.get(id=id)
+    items = compra.compraitem_set.all()
+    
+    total_compra = round(compra.total*0.95) + 2000
+    total_productos = 0
 
+    subtotal = round(compra.total*0.95)
+    for x in items:
+        total_productos += x.producto.precio * x.cantidad
+        x.total_productos = total_productos
 
+        total_productos = 0
 
+        precio_rebajado = round(x.producto.precio * 0.95)
+        x.precio_rebajado = precio_rebajado
+
+        total_rebaja_prod = precio_rebajado * x.cantidad
+        x.total_rebaja_prod = total_rebaja_prod
+    
     data = {
         'compra': compra,
+        'items': items,
+        'total_compra': total_compra,
+        'subtotal': subtotal,
     }
     
     return render(request, 'core/detalle.html', data)
@@ -422,3 +436,38 @@ def estadocompra(request, id):
     }
 
     return render(request, 'core/estadocompra.html', data)
+
+@grupo_requerido('Cliente')
+def confirmation(request,id):
+    compra = Compra.objects.get(id=id)
+    items = compra.compraitem_set.all()
+    last_name = request.user.last_name
+    
+    total_compra = round(compra.total*0.95) + 2000
+    total_productos = 0
+
+    total_compra_nor = compra.total + 2000
+
+    subtotal = round(compra.total*0.95)
+    for x in items:
+        total_productos += x.producto.precio * x.cantidad
+        x.total_producto = total_productos
+
+        total_productos = 0
+        #con descuento:
+        precio_rebajado = round(x.producto.precio * 0.95)
+        x.precio_rebajado = precio_rebajado
+
+        total_rebaja_prod = precio_rebajado * x.cantidad
+        x.total_rebaja_prod = total_rebaja_prod
+    
+    data = {
+        'compra': compra,
+        'items': items,
+        'last_name': last_name,
+        'total_compra': total_compra,
+        'subtotal': subtotal,
+        'total_compra_nor': total_compra_nor,
+    }
+    
+    return render(request, 'core/confirmation.html', data)

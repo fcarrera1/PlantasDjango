@@ -28,7 +28,7 @@ class CarroItemAdmin(admin.ModelAdmin):
     list_filter = ['producto']
 
 class CompraItemAdmin(admin.ModelAdmin):
-    list_display = ['id','compra','created_at','updated_at']
+    list_display = ['id','compra','producto' ,'cantidad' , 'subtotal','created_at','updated_at']
     search_fields = ['compra']
     list_per_page = 5
     list_filter = ['compra']

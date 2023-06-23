@@ -54,14 +54,16 @@
                         </ul>
                         
                         <ul class="nav-shop">
-                            {% if user.is_authenticated%}
+                            {% if user.is_authenticated %}
                                     <li class="nav-item"><a href="{% url 'cart' %}"><button><i class="ti-shopping-cart" style="color: white;"></i><span
                                         class="nav-shop__circle">{{ total.total }}</span></button></a>
                                     </li>
                             {% endif%}
                             
                             {% if user.is_authenticated %}
-                                {% if user.id == 3 %}
+                                {% if user.is_superuser or user.id == 5 %}
+                                <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil <i class="ti-id-badge" style="color: yellow;"></i> </a></li>
+                                {% elif user.id == 3 %}
                                     <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil <i class="ti-star" style="color: yellow;"></i> </a></li>
                                 {% else %}
                                     <li class="nav-item"><a class="button button-header " href="{% url 'perfil' %}" style="color: white;">Ver perfil </a></li>

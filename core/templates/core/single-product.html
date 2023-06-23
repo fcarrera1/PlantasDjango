@@ -10,6 +10,55 @@
 
 <div class="product_image_area">
 	<div class="container">
+		{% if user.id == 3 %}
+		<div class="row s_product_inner">
+			<div class="col-lg-6">
+				<div class="single-prd-item">
+					{% if producto.imagen %}
+					<img class="img-fluid" src="{{ producto.imagen.url }}" alt="">
+					{% else %}
+					<img class="img-fluid" src="{% static 'core/img/fotos/notfound.png' %}" alt="">
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="col-lg-5 offset-lg-1">
+				<div class="s_product_text">
+					<h3> {{ producto.nombre }}</h3>
+					<h2 style="text-decoration: line-through;">${{ producto.precio | intcomma }}</h2>
+					<h2>${{ precio_descuento | intcomma }}</h2>
+					<ul class="list">
+						<li><span>Categoria</span>: {{ producto.tipo }}</li>
+						<li><span>Stock</span>: {{ producto.stock }}</li>
+						<li>{{producto.descripcion}}</li>
+					</ul>
+					{% if user.is_authenticated %}
+						{% if producto.stock > 0 %}
+							<p><a class="button primary-btn" href=" {% url 'cartadd' producto.id %}">Añadir al carro</a></p>
+						{% else %}
+							<p><a class="button primary-btn" href="">Producto no disponible</a></p>
+						{% endif %}
+					{% else %}
+						{% if producto.stock > 0 %}
+							<p><a class="button primary-btn" href=" {% url 'login' %}">Añadir al carro</a></p>
+						{% else %}
+							<p><a class="button primary-btn" href="">Producto no disponible</a></p>
+						{% endif %}
+					{% endif %}
+					<div class="card_area d-flex align-items-center">
+						{% if user.is_authenticated %}
+						<button type="button" class="btn btn-primary" id="myBtn" style="background-color: blue;"><i class="ti-heart"></i> </button>
+						{% endif %}
+						<div class="toast mt-3">
+							<div class="toast-body">
+								Se agregó a la lista de deseados
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% else %}
 		<div class="row s_product_inner">
 			<div class="col-lg-6">
 				<div class="single-prd-item">
@@ -56,6 +105,7 @@
 				</div>
 			</div>
 		</div>
+		{% endif %}
 	</div>
 </div>
 </div>

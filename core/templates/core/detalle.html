@@ -6,6 +6,22 @@
 {% block css %}
 {% endblock %}
 
+<section class="" style="background-color:#dbe3da;">
+    <div class="container">
+      <div class="row no-gutters align-items-center pt-60px">
+        <div class="col-5 d-none d-sm-block">
+          <div class="hero-banner__img" >
+            <img class="img-fluid " src="{% static 'core/img/fotos/list.png' %}" alt="">
+          </div>
+        </div>
+        <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+          <div class="hero-banner__content">
+            <h1 style="font-family: 'Besttia Brush', sans-serif;">Mis compras</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 <section class="cart_area">
     <div class="container">
@@ -21,29 +37,30 @@
                             
                         </tr>
                     </thead>
+                    {% if user.id == 3 %}
                     <tbody>
                         {% for x in items %}
                         <tr>
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="" alt="" height="80px" width="60px">
+                                        <img src="{{ x.producto.imagen.url }}" alt="" height="80px" width="60px">
                                     </div>
                                     <div class="media-body">
-                                        <p>a</p>
+                                        <p>{{ x.producto.nombre }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h5>$ </h5>
+                                <h5 style="text-decoration: line-through;">${{ x.producto.precio | intcomma}}</h5>
+                                <h5 >${{ x.precio_rebajado | intcomma}}</h5>
                             </td>
                             <td>
-                                <h5></h5>
+                                <h5>{{ x.cantidad }}</h5>
                             </td>
                             <td>
-                                <h5>
-                                    $
-                                </h5>
+                                <h5 style="text-decoration: line-through;">${{ x.total_productos | intcomma}}</h5>
+                                <h5>${{ x.total_rebaja_prod | intcomma}}</h5>
                             </td>
                         </tr>
                         
@@ -63,6 +80,48 @@
                             </td>
                         </tr>
                     </tbody>
+                    {% else %}
+                    <tbody>
+                        {% for x in items %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="{{ x.producto.imagen.url }}" alt="" height="80px" width="60px">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{ x.producto.nombre }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>${{ x.producto.precio | intcomma}}</h5>
+                            </td>
+                            <td>
+                                <h5>{{ x.cantidad }}</h5>
+                            </td>
+                            <td>
+                                <h5>${{ x.total_productos | intcomma}}</h5>
+                            </td>
+                        </tr>
+                        
+                        {% endfor %}
+                        <tr class="bottom_button">
+                            <td>
+                               
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endif %}
                 </table>
             </div>
         </div>

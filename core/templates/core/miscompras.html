@@ -12,7 +12,7 @@
       <div class="row no-gutters align-items-center pt-60px">
         <div class="col-5 d-none d-sm-block">
           <div class="hero-banner__img" >
-            <img class="img-fluid " src="{% static 'core/img/fotos/banner.jpg' %}" alt="">
+            <img class="img-fluid " src="{% static 'core/img/fotos/shopping.png' %}" alt="">
           </div>
         </div>
         <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
@@ -29,6 +29,7 @@
         <div class="cart_inner">
             <div class="table-responsive">
                 <table class="table">
+                    {% if user.id == 3 %}
                     <thead>
                         <tr>
                             <th scope="col">Nro. Orden</th>
@@ -39,12 +40,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for compra in compras %}
+                        {% for x in compras %}
                             <tr>
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
-                                            <h5>{{ compra.id }}</h5>
+                                            <h5>{{ x.id }}</h5>
                                         </div>
                                         <div class="media-body">  
                                         </div>
@@ -52,18 +53,19 @@
                                 </td>
 
                                 <td>
-                                    <h5>$ {{ compra.total | intcomma}}</h5>
+                                    <h5 style="text-decoration: line-through;">$ {{ x.total_compra | intcomma}}</h5>
+                                    <h5>$ {{ x.total_con_descuento | intcomma}}</h5>
                                 </td>
                                 <td>
                                     <h5>
-                                        {{ compra.estado }}
+                                        {{ x.estado }}
                                     </h5>
                                 </td>
                                 <td>
-                                    <a href="{% url 'detalle' compra.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
+                                    <a href="{% url 'detalle' x.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
                                 </td>
                                 <td>
-                                    <a href="{% url 'trackingorder' compra.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
+                                    <a href="{% url 'trackingorder' x.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
                                 </td>
                                 <td>
                                 </td>
@@ -86,6 +88,65 @@
                             </td>
                         </tr>
                     </tbody>
+                    {% else %}
+                    <thead>
+                        <tr>
+                            <th scope="col">Nro. Orden</th>
+                            <th scope="col">Total compra</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Detalles</th>
+                            <th scope="col">Seguimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in compras %}
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <h5>{{ x.id }}</h5>
+                                        </div>
+                                        <div class="media-body">  
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <h5>$ {{ x.total_compra | intcomma}}</h5>
+                                </td>
+                                <td>
+                                    <h5>
+                                        {{ x.estado }}
+                                    </h5>
+                                </td>
+                                <td>
+                                    <a href="{% url 'detalle' x.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'trackingorder' x.id %}" style="text-decoration: none;"><i class="ti-angle-right"></i></a>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        
+                        <tr class="bottom_button">
+                            <td>
+                               
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endif %}
                 </table>
             </div>
         </div>
