@@ -201,11 +201,7 @@
       </div>
     </section>
   {% endif %}
-  <!--================  End Checkout Area  =================-->
 
-
-
-  <!--================ Start footer Area  =================-->
   {% endblock %}
   <!--================ End footer Area  =================-->
 
@@ -242,7 +238,7 @@
           return actions.payment.execute().then(function () {
             //la lógica de lo que pasa luego del pago
             Swal.fire({
-              title: 'Confirmación',
+              title: 'Pago realizado',
               text: 'Pago realizado correctamente',
               icon: 'success',
               showCancelButton: false,

@@ -153,10 +153,10 @@
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                               </li>
                               {% if aux.stock > 0 %}
-                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
                               {% else %}
                               {% endif %}
-                              </a>
+                              
                             </ul>
                           </div>
                           <div class="card-body">
@@ -188,10 +188,10 @@
                               <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                               </li>
                               {% if aux.stock > 0 %}
-                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
                               {% else %}
                               {% endif %}
-                              </a>
+                              
                             </ul>
                           </div>
                           <div class="card-body">
@@ -223,7 +223,7 @@
                           <li><a href="{% url 'singleproduct' aux.id %}"><button><i class="ti-search"></i></button></a>
                           </li>
                           {% if aux.stock > 0 %}
-                          <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></li>
+                          <li><a href="{% url 'cartadd' aux.id %}"><button><i class="ti-shopping-cart"></i></button></a></li>
                           {% else %}
                           {% endif %}
                         </ul>

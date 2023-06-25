@@ -100,6 +100,7 @@ def checkout(request):
     total_rebaja_prod = 0
     
     total_productos = 0
+    
     for x in items:
         total_productos += x.producto.precio * x.cantidad
 
